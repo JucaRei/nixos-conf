@@ -227,7 +227,17 @@ in
     ];
   };
   services.plex.enable = false;
-  nixpkgs.config.allowUnfree = true; # unfree packages
+  nixpkgs.config = {
+    allowUnsupportedSystem = true; # For permanently allowing unsupported packages to be built.
+    allowUnfree = true; # unfree packages
+    # allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [   # allow only selected unfree packages
+    #   "roon-server"
+    #   "vscode"
+    # ];
+    # permittedInsecurePackages = [
+    # "balenaetcher"
+    # ];
+  };
   
   virtualisation.libvirtd.enable = true; # virtmanager
   programs.dconf.enable = true; # virtmanager
