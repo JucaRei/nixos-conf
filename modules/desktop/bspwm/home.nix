@@ -18,6 +18,7 @@
 { config, lib, pkgs, host, hostname, ... }:
 
 let
+  hostName = "${hostname}";
   extra = ''
     WORKSPACES                              # Workspace tag names (need to be the same as the polybar config to work)
 
