@@ -44,18 +44,18 @@ let
   '';
 
   extraConf = with host builtins.replaceStrings [ "WORKSPACES" ];
-    [
-      (if hostName == "desktop" then ''
-        bspc monitor ${mainMonitor} -d 1 2 3 4 5
-        bspc monitor ${secondMonitor} -d 6 7 8 9 0
-        bspc wm -O ${mainMonitor} ${secondMonitor}
-        polybar sec &
-      ''
-      else if hostName == "laptop" || hostName == "vm" then ''
-        bspc monitor -d 1 2 3 4 5
-      ''
-      else false)
-    ]
+
+    (if hostName == "desktop" then ''
+      bspc monitor ${mainMonitor} -d 1 2 3 4 5
+      bspc monitor ${secondMonitor} -d 6 7 8 9 0
+      bspc wm -O ${mainMonitor} ${secondMonitor}
+      polybar sec &
+    ''
+    else if hostName == "laptop" || hostName == "vm" then ''
+      bspc monitor -d 1 2 3 4 5
+    ''
+    else false)
+
       "${extra}";
 in
 {
