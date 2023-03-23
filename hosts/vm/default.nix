@@ -30,6 +30,12 @@
 
     loader = {
 
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
+      };
+      timeout = 6;
+
       ###  Systemd boot as bootloader ###
       # systemd-boot = {
       #   enable = true;
@@ -53,8 +59,9 @@
         enable = true;
         version = 2;
         # default = 0;              # "saved";
-        devices = [ "nodev" ]; # device = "/dev/sda"; or "nodev" for efi only
+        # devices = [ "nodev" ]; # device = "/dev/sda"; or "nodev" for efi only
         # device = "/dev/vda";      # legacy
+        device = "nodev"; # uefi
         efiSupport = true;
         efiInstallAsRemovable = true;
         configurationLimit = 5; # do not store more than 5 gen backups
@@ -89,11 +96,6 @@
           }
         '';
       };
-      efi = {
-        efiSysMountPoint = "/boot/efi";
-        canTouchEfiVariables = false;
-      };
-      timeout = 6;
     };
   };
 

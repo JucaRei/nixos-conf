@@ -63,3 +63,4 @@ nixos-generate-config --root /mnt
 
 
 # sudo nixos-install -v --root /mnt --flake /home/nixos/.setup#vm
+# sudo nixos-rebuild --flake /home/nixos/.setup#vm
