@@ -15,7 +15,7 @@
 #       ├─ ./polybar.nix
 #       └─ ./sxhkd.nix
 
-{ config, lib, pkgs, host, ... }:
+{ config, lib, pkgs, host, hostname, ... }:
 
 let
   extra = ''
@@ -45,7 +45,7 @@ let
 
   extraConf = with host builtins.replaceStrings [ "WORKSPACES" ]
     [
-      (if hostName == "desktop" then ''
+      (if hostName == "${hostname}" then ''
         bspc monitor ${mainMonitor} -d 1 2 3 4 5
         bspc monitor ${secondMonitor} -d 6 7 8 9 0
         bspc wm -O ${mainMonitor} ${secondMonitor}
@@ -65,7 +65,7 @@ in
     windowManager = {
       bspwm = {
         enable = true;
-        monitors = with host; if hostName == "desktop" then {
+        monitors = with host; if hostName == "${hostname}" then {
           ${mainMonitor} = [ "1" "2" "3" "4" "5" ];
           ${secondMonitor} = [ "6" "7" "8" "9" "0" ];
         } else { }; # Multiple Monitors
