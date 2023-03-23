@@ -21,6 +21,7 @@ let
   #       "${pkgs.xorg.xrandr}/bin/xrandr --mode 1920x1080 --pos 0x0 --rotate normal"
   #     else false;
   # in
+  secondMonitor = "eDP-1";
   monitor = with host;
     if hostName == "${hostname}" then
       "${pkgs.xorg.xrandr}/bin/xrandr --output ${secondMonitor} --mode 1920x1080 --pos 0x0 --rotate normal --output ${mainMonitor} --primary --mode 1920x1080 --pos 1920x0 --rotate normal"
