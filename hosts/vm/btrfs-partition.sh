@@ -53,7 +53,7 @@ mount -t vfat -o rw,defaults,noatime,nodiratime /dev/disk/by-label/GRUB /mnt/boo
 # touch /home/nixos/.config/nix/nix.conf
 # echo "experimental-features = nix-command flakes" >> /home/nixos/.config/nix/nix.conf
 
-# nixos-generate-config --root /mnt
+nixos-generate-config --root /mnt
 # nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 # nix-env -iA nixos.git
