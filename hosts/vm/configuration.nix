@@ -168,8 +168,20 @@ in
   # };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
-
+  services = {
+    printing = {
+      enable = true;
+    };
+    avahi = {
+      enable = true;
+      nssmdns = true; 
+      publish = {                               # Needed for detecting the scanner
+        enable = true;
+        addresses = true;
+        userServices = true;
+      };
+    };
+  };
   # Enable sound.
   sound = {
     enable = true;
@@ -214,8 +226,10 @@ in
     packages = with pkgs; [
       firefox
       htop
+      git
       neovim
       duf 
+      openssh
       neofetch
       podman
       podman-compose
@@ -237,6 +251,7 @@ in
     # permittedInsecurePackages = [
     # "balenaetcher"
     # ];
+    # NIXPKGS_ALLOW_INSECURE = 1;
   };
   
   virtualisation.libvirtd.enable = true; # virtmanager
@@ -268,8 +283,8 @@ in
   ################################################################################
 
   # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
+  # services.openssh = {
+    # enable = true;
   #   permitRootLogin = "no";
   #   passwordAuthentication = true;
   #   hostKeys =
@@ -370,8 +385,13 @@ in
       options = "--delete-older-than 7d";
     };
     # Flakes
-    package = pkgs.nixFlakes;
-    extraOptions = "experimental-features = nix-command flakes";
+    package = pkgs.nixFlakes;                                     # Enable nixFlakes on system
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      keep-outputs          = true
+      keep-derivations      = true
+    '';
   };
 
   # mkdir -pv ~/.flakes

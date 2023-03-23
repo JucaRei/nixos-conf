@@ -11,7 +11,21 @@
   
   inputs = {
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";                  # Nix Packages
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";                  # Nix Packages
+    nixpkgs-2211.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    master.url = "github:nixos/nixpkgs/master";
+
+    # The following is required to make flake-parts work.
+    nixpkgs.follows = "nixpkgs-unstable";
+    unstable.follows = "nixpkgs-unstable";
+    stable.follows = "nixpkgs-2211";
+
+    # Known to work, try again after nixos/nix#8072 git fixed
+    # https://github.com/NixOS/nix/issues/8072
+    nix.url = "github:nixos/nix";
+
+    nixos-vscode-server.url = "github:msteen/nixos-vscode-server";
 
     home-manager = {
       url = github:nix-community/home-manager;                            # User Package Management
@@ -53,9 +67,8 @@
     };
   };
 
-  # outputs = { self, nixpkgs }: 
-  outputs = { self, nixpkgs, home-manager }: 
-
+  # outputs = { self, nixpkgs, home-manager }: 
+  outputs = inputs @ { self, nixpkgs, stable, unstable, nix, home-manager, nixos-vscode-server, darwin, nur, nixgl, doom-emacs, hyprland, plasma-manager, ... }:   # Function that tells my flake which to use and what do what to do with the dependencies.
     let
       user="juca";
       location = "$HOME/.setup";
@@ -65,24 +78,33 @@
         config.allowUnfree = true;
       };
       lib = nixpkgs.lib;
-    in {
-      nixosConfigurations = {
-        juca = lib.nixosSystem {
-          inherit system;
-          modules = [ 
-            ./configuration.nix
-            home-manager.nixosModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${user} = {
-                imports = [ 
-                 ./home.nix
-                ];
-              };
-            }
-         ];
-        };
-      };
+    in 
+    {
+      nixosConfigurations = (                                               # NixOS configurations
+        import ./hosts {                                                    # Imports ./hosts/default.nix
+          inherit (nixpkgs) lib;
+          # inherit inputs nixpkgs nix stable unstable nixos-vscode-server home-manager nur user location doom-emacs hyprland plasma-manager;   # Also inherit home-manager so it does not need to be defined here.
+          inherit inputs user system home-manager;
+        }
+      );
+
+    #   nixosConfigurations = {
+    #     juca = lib.nixosSystem {
+    #       inherit system;
+    #       modules = [ 
+    #         ./configuration.nix
+    #         home-manager.nixosModules.home-manager {
+    #           home-manager.useGlobalPkgs = true;
+    #           home-manager.useUserPackages = true;
+    #           home-manager.users.${user} = {
+    #             imports = [ 
+    #              ./hosts
+    #             ];
+    #           };
+    #         }
+    #      ];
+    #     };
+    #   };
 
       # homeManagerConfiguration = {
       #   pkgs = nixpkgs.legacyPackages.${system};
