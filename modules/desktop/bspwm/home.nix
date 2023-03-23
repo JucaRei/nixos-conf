@@ -18,6 +18,8 @@
 { config, lib, pkgs, host, hostname, ... }:
 
 let
+  mainMonitor = "eDP-1";
+  secondMonitor = "HDMI-1-0";
   hostName = "${hostname}";
   extra = ''
     WORKSPACES                              # Workspace tag names (need to be the same as the polybar config to work)
