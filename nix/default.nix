@@ -13,7 +13,8 @@ let
   pkgs = nixpkgs.legacyPackages.${system};
 in
 {
-  pacman = home-manager.lib.homeManagerConfiguration {    # Currently only host that can be built
+  pacman = home-manager.lib.homeManagerConfiguration {
+    # Currently only host that can be built
     inherit pkgs;
     extraSpecialArgs = { inherit inputs nixgl user; };
     modules = [
@@ -23,7 +24,7 @@ in
           username = "${user}";
           homeDirectory = "/home/${user}";
           packages = [ pkgs.home-manager ];
-          stateVersion = "22.11";
+          stateVersion = "22.05";
         };
       }
     ];

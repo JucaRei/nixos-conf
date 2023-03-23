@@ -1,23 +1,50 @@
-{ config, pkgs, ... }:
-let 
-user="juca";
-in
+#
+#  Home-manager configuration for laptop
+#
+#  flake.nix
+#   ├─ ./hosts
+#   │   └─ ./laptop
+#   │       └─ home.nix *
+#   └─ ./modules
+#       └─ ./desktop
+#           └─ ./bspwm
+#              └─ home.nix
+#
+
+{ pkgs, ... }:
+
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "${user}";
-  home.homeDirectory = "/home/${user}";
+  imports =
+    [
+      ../../modules/desktop/bspwm/home.nix # Window Manager
+    ];
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "22.11";
+  home = {                                # Specific packages for laptop
+    packages = with pkgs; [
+      # Applications
+      libreoffice                         # Office packages
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+      # Display
+      #light                              # xorg.xbacklight not supported. Other option is just use xrandr.
+
+      # Power Management
+      #auto-cpufreq                       # Power management
+      #tlp                                # Power management
+    ];
+  };
+
+  programs = {
+    alacritty.settings.font.size = 11;
+  };
+
+  services = {                            # Applets
+    blueman-applet.enable = true;         # Bluetooth
+    network-manager-applet.enable = true; # Network
+#   cbatticon = {
+#     enable = true;
+#     criticalLevelPercent = 10;
+#     lowLevelPercent = 20;
+#     iconType = null;
+#   };
+  };
 }

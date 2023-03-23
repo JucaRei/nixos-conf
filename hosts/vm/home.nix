@@ -1,22 +1,30 @@
-{ config, pkgs, ... }:
-let 
-user="juca";
-in
+#
+#  Home-manager configuration for desktop
+#
+#  flake.nix
+#   ├─ ./hosts
+#   │   └─ ./vm
+#   │       └─ home.nix *
+#   └─ ./modules
+#       └─ ./desktop
+#           └─ ./bspwm
+#               └─ home.nix
+#
+
+{ pkgs, ... }:
+
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home = {
-    username = "${user}";
-    homeDirectory = "/home/${user}";
-    stateVersion = "22.11";
-    packages = with pkgs; [ 
-      ansible 
-      ffmpeg
+  imports =
+    [
+      ../../modules/desktop/bspwm/home.nix #Window Manager
     ];
-    services = {                            # Applets
-    blueman-applet.enable = true;         # Bluetooth
-    };
+
+  home = {
+    # Specific packages for desktop
+    packages = with pkgs; [
+      firefox
+      neofetch
+      htop
+    ];
   };
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }
