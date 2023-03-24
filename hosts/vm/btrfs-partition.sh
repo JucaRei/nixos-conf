@@ -71,6 +71,7 @@ nixos-generate-config --root /mnt
 
 ## Install flake repo
 # sudo nixos-install -v --root /mnt --impure --flake /home/nixos/.setup#vm
+# sudo nixos-install -v --root /mnt --impure --flake github:JucaRei/nixos-conf#vm
 # sudo nixos-rebuild --flake /home/nixos/.setup#vm
 # sudo nixos-rebuild switch --flake /home/nixos/.setup#vm
 # sudo nixos-rebuild switch --flake /home/nixos/.setup#vm --fallback
