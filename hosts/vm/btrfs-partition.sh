@@ -62,6 +62,7 @@ nixos-generate-config --root /mnt
 # git clone --depth=1 https://github.com/JucaRei/teste-repo /home/nixos/.setup
 # git clone --depth=1 https://github.com/JucaRei/teste-repo /mnt/etc/nixos
 
+# git clone --depth=1 https://github.com/JucaRei/nixos-conf /home/nixos/.setup
 
 # sudo nixos-install -v --root /mnt --flake /home/nixos/.setup#vm
 # sudo nixos-rebuild --flake /home/nixos/.setup#vm

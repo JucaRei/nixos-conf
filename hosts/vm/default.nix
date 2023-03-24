@@ -21,13 +21,6 @@
     ../../modules/desktop/bspwm/default.nix # Window Manager
   ];
 
-  boot.loader = {
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
-    };
-    timeout = 6;
-  };
   boot = {
     isContainer = false;
     # Boot options
@@ -38,11 +31,11 @@
 
     loader = {
 
-      # efi = {
-      #   # canTouchEfiVariables = true;
-      #   canTouchEfiVariables = false;
-      #   efiSysMountPoint = "/boot";
-      # };
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
+      };
+      timeout = 6;
 
       ###  Systemd boot as bootloader ###
       # systemd-boot = {
