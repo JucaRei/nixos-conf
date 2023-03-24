@@ -28,8 +28,8 @@ umount -R /mnt
 # mount -o $BTRFS_OPTS,subvol=@root /dev/vda2 /mnt 
 mount -o $BTRFS_OPTS,subvol="@root" /dev/disk/by-label/NIXOS /mnt
 # mkdir -pv /mnt/{boot/efi,home,.snapshots,var/tmp,nix,swap}
-# mkdir -pv /mnt/{boot/efi,home,.snapshots,var/tmp,nix}
-mkdir -pv /mnt/{boot,home,.snapshots,var/tmp,nix}
+mkdir -pv /mnt/{boot/efi,home,.snapshots,var/tmp,nix}
+# mkdir -pv /mnt/{boot,home,.snapshots,var/tmp,nix}
 # mount -o $BTRFS_OPTS,subvol=@home /dev/vda2 /mnt/home
 mount -o $BTRFS_OPTS,subvol="@home" /dev/disk/by-label/NIXOS /mnt/home
 # mount -o $BTRFS_OPTS,subvol=@snapshots /dev/vda2 /mnt/.snapshots
@@ -39,8 +39,8 @@ mount -o $BTRFS_OPTS,subvol="@snapshots" /dev/disk/by-label/NIXOS /mnt/.snapshot
 mount -o $BTRFS_OPTS,subvol="@tmp" /dev/disk/by-label/NIXOS /mnt/var/tmp
 # mount -o $BTRFS_OPTS,subvol=@nix /dev/vda2 /mnt/nix
 mount -o $BTRFS_OPTS,subvol="@nix" /dev/disk/by-label/NIXOS /mnt/nix
-# mount -t vfat -o rw,defaults,noatime,nodiratime /dev/vda1 /mnt/boot/efi
-mount -t vfat -o rw,defaults,noatime,nodiratime /dev/disk/by-label/GRUB /mnt/boot
+mount -t vfat -o rw,defaults,noatime,nodiratime /dev/vda1 /mnt/boot/efi
+# mount -t vfat -o rw,defaults,noatime,nodiratime /dev/disk/by-label/GRUB /mnt/boot
 
 # for dir in dev proc sys run; do
 #    mount --rbind /$dir /mnt/$dir

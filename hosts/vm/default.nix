@@ -21,11 +21,15 @@
     ../../modules/desktop/bspwm/default.nix # Window Manager
   ];
 
-  # boot.loader.efi = {
-  #   canTouchEfiVariables = true;
-  #   efiSysMountPoint = "/boot/efi";
-  # };
+  boot.loader = {
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi";
+    };
+    timeout = 6;
+  };
   boot = {
+    isContainer = false;
     # Boot options
     kernelPackages = pkgs.linuxPackages_latest;
     # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages; # zfs
@@ -34,12 +38,11 @@
 
     loader = {
 
-      efi = {
-        # canTouchEfiVariables = true;
-        canTouchEfiVariables = false;
-        efiSysMountPoint = "/boot";
-      };
-      timeout = 6;
+      # efi = {
+      #   # canTouchEfiVariables = true;
+      #   canTouchEfiVariables = false;
+      #   efiSysMountPoint = "/boot";
+      # };
 
       ###  Systemd boot as bootloader ###
       # systemd-boot = {
