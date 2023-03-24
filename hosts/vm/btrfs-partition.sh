@@ -46,7 +46,7 @@ mount -o $BTRFS_OPTS,subvol="@tmp" /dev/disk/by-partlabel/NIXOS /mnt/var/tmp
 mount -o $BTRFS_OPTS,subvol="@nix" /dev/disk/by-partlabel/NIXOS /mnt/nix
 # mount -t vfat -o rw,defaults,noatime,nodiratime /dev/vda1 /mnt/boot/efi
 # mount -t vfat -o rw,defaults,noatime,nodiratime /dev/disk/by-label/GRUB /mnt/boot
-mount -t vfat -o rw,defaults,noatime,nodiratime /dev/disk/by-partlabel/GRUB /mnt/boot
+mount -t vfat -o rw,defaults,noatime,nodiratime /dev/disk/by-partlabel/GRUB /mnt/boot/efi
 
 # for dir in dev proc sys run; do
 #    mount --rbind /$dir /mnt/$dir
