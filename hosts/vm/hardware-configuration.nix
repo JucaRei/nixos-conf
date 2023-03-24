@@ -89,6 +89,7 @@ in
       device = "/dev/disk/by-partlabel/GRUB";
       fsType = "vfat";
       options = [ "defaults" "noatime" "nodiratime" ];
+      noCheck = true;
     };
 
   swapDevices = [ ];
