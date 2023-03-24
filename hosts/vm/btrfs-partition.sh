@@ -72,6 +72,8 @@ nixos-generate-config --root /mnt
 ## Install flake repo
 # sudo nixos-install -v --root /mnt --impure --flake /home/nixos/.setup#vm
 # sudo nixos-rebuild --flake /home/nixos/.setup#vm
+# sudo nixos-rebuild switch --flake /home/nixos/.setup#vm
+# sudo nixos-rebuild switch --flake /home/nixos/.setup#vm --fallback
 
 ## Chroot 
 
@@ -80,3 +82,9 @@ nixos-generate-config --root /mnt
 # nixos-enter -- cat /proc/mounts                     # Run a non-shell command
 
 # nix flake check --no-build github:NixOS/patchelf
+
+
+## Check dots
+# nix flake check --no-build github:JucaRei/nixos-conf#vm --extra-experimental-features nix-command --extra-experimental-features flakes 
+# nix flake check --no-build --no-write-lock-file github:JucaRei/nixos-conf --extra-experimental-features nix-command --extra-experimental-features flakes
+# nix flake check --no-build --no-write-lock-file --show-trace github:JucaRei/nixos-conf --extra-experimental-features nix-command --extra-experimental-features flakes
