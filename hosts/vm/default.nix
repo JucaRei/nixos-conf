@@ -26,8 +26,13 @@
     # Boot options
     kernelPackages = pkgs.linuxPackages_latest;
     # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages; # zfs
-    kernel.sysctl = { "vm.vfs_cache_pressure" = 500; "vm.swappiness" = 100; "vm.dirty_background_ratio" = 1; "vm.dirty_ratio" = 50; "dev.i915.perf_stream_paranoid" = 0; };
-
+    kernel.sysctl = {
+      "vm.vfs_cache_pressure" = 500;
+      "vm.swappiness" = 100;
+      "vm.dirty_background_ratio" = 1;
+      "vm.dirty_ratio" = 50;
+      "dev.i915.perf_stream_paranoid" = 0;
+    };
 
     loader = {
 

@@ -22,6 +22,7 @@ in
 
   users.users.${user} = {
     # System User
+    isSystemUser = true;
     isNormalUser = true;
     # description = "Nixos"; # you can set your Full Name here, if you like it.
     # group = "nixuser";
@@ -35,9 +36,16 @@ in
   };
   security.sudo.wheelNeedsPassword = false; # User does not need to give password when using sudo.
 
-  time.timeZone = "America/Sao_Paulo"; # Time zone and internationalisation
+  time = {
+    timeZone = "America/Sao_Paulo"; # Time zone and internationalisation 
+    hardwareClockInLocalTime = true; # hardware clock in local time instead of UTC
+  };
   i18n = {
     defaultLocale = "en_US.UTF-8";
+    supportedLocales = [
+      "pt_BR.UTF-8"
+      "en_US.UTF-8"
+    ];
     extraLocaleSettings = {
       # Extra locale settings that need to be overwritten
       LC_TIME = "pt_BR.UTF-8";
@@ -52,12 +60,16 @@ in
 
   console = {
     font = "Lat2-Terminus16";
-    # keyMap = "us-acentos"; # or us/azerty/etc
-    keyMap = "br-abnt2"; # or us/azerty/etc
+    keyMap = "us-acentos"; # or us/azerty/etc
+    # keyMap = "br-abnt2"; # or us/azerty/etc
   };
 
-  security.rtkit.enable = true;
-  security.polkit.enable = true;
+  security = {
+    rtkit.enable = true;
+    polkit.enable = true;
+    # tpm2.enable = true;
+    # unprivilegedUsernsClone = true;
+  };
   #sound = {                                # Deprecated due to pipewire
   #  enable = true;
   #  mediaKeys = {
@@ -158,6 +170,7 @@ in
 
   nix = {
     # Nix Package Manager settings
+    optimise.automatic = true;
     settings = {
       auto-optimise-store = true; # Optimise syslinks
     };

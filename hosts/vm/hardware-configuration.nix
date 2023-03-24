@@ -22,13 +22,13 @@ in
   boot = {
     initrd = {
       availableKernelModules = [ "ata_piix" "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" "virtio_blk" ];
-      kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
+      kernelModules = [ "kvm-intel" ];
       checkJournalingFS = false; # for vm
       supportedFilesystems = [ "vfat" "btrfs" ];
       compressor = "zstd";
     };
     # kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
-    kernelModules = [ ];
+    kernelModules = [ "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
     extraModulePackages = [ ];
 
     ### Enable plymouth ###
