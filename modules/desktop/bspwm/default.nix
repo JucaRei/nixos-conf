@@ -36,7 +36,7 @@ in
     xserver = {
       enable = true;
 
-      layout = "br-abnt2"; # Keyboard layout & €-sign
+      layout = "us"; # Keyboard layout & €-sign
       # xkbOptions = "eurosign:e";
       libinput = {
         enable = true;
