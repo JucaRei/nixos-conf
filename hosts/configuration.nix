@@ -175,7 +175,7 @@
   };
   nixpkgs.config = {
     allowUnfree = true; # Allow proprietary software. 
-    allowUnsupportedSystem = true; # For permanently allowing unsupported packages to be built.
+    # allowUnsupportedSystem = true; # For permanently allowing unsupported packages to be built.
   };
 
   system = {
