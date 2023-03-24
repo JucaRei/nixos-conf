@@ -49,42 +49,42 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-label/NIXOS";
+      device = "/dev/disk/by-partlabel/NIXOS";
       fsType = "btrfs";
       options = [ "subvol=@root" "rw" "noatime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
     };
 
   fileSystems."/home" =
     {
-      device = "/dev/disk/by-label/NIXOS";
+      device = "/dev/disk/by-partlabel/NIXOS";
       fsType = "btrfs";
       options = [ "subvol=@home" "rw" "noatime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
     };
 
   fileSystems."/.snapshots" =
     {
-      device = "/dev/disk/by-label/NIXOS";
+      device = "/dev/disk/by-partlabel/NIXOS";
       fsType = "btrfs";
       options = [ "subvol=@snapshots" "rw" "noatime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
     };
 
   fileSystems."/var/tmp" =
     {
-      device = "/dev/disk/by-label/NIXOS";
+      device = "/dev/disk/by-partlabel/NIXOS";
       fsType = "btrfs";
       options = [ "subvol=@tmp" "rw" "noatime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
     };
 
   fileSystems."/nix" =
     {
-      device = "/dev/disk/by-label/NIXOS";
+      device = "/dev/disk/by-partlabel/NIXOS";
       fsType = "btrfs";
       options = [ "subvol=@nix" "rw" "noatime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
     };
 
   fileSystems."/boot/efi" =
     {
-      device = "/dev/disk/by-label/GRUB";
+      device = "/dev/disk/by-partlabel/GRUB";
       fsType = "vfat";
       options = [ "rw" "defaults" "noatime" "nodiratime" ];
     };
