@@ -12,7 +12,9 @@
 #
 
 { config, lib, pkgs, inputs, user, ... }:
-
+let
+  user = "juca";
+in
 {
   imports =
     (import ../modules/editors) ++ # Native doom emacs instead of nix-community flake
@@ -21,8 +23,8 @@
   users.users.${user} = {
     # System User
     isNormalUser = true;
-    description = "Nixos"; # you can set your Full Name here, if you like it.
-    group = "nixuser";
+    # description = "Nixos"; # you can set your Full Name here, if you like it.
+    # group = "nixuser";
     createHome = true;
     uid = 1000;
     autoSubUidGidRange = true; # Allocated range is currently always of size 65536

@@ -11,7 +11,7 @@
 #            └─ ./home.nix 
 #
 
-{ lib, inputs, nixpkgs, home-manager, nur, user, computerName, hostname, location, doom-emacs, hyprland, plasma-manager, ... }:
+{ lib, inputs, nixpkgs, home-manager, nur, user, monitornitro, monitorExternal, monitormcbair, monitoroldmac, monitorVM, computerName, hostname, location, doom-emacs, hyprland, plasma-manager, ... }:
 
 let
   system = "x86_64-linux";                                  # System architecture
@@ -22,17 +22,18 @@ let
   };
 
   lib = nixpkgs.lib;
+
 in
 {
   desktop = lib.nixosSystem {
     # Desktop profile
     inherit system;
     specialArgs = {
-      inherit inputs user location hyprland system hostname;
+      inherit inputs user location hyprland system hostname monitornitro monitorExternal monitormcbair monitoroldmac;
       host = {
         hostName = "${hostname}";
-        mainMonitor = "HDMI-1-0";
-        # secondMonitor = "eDP-1";
+        mainMonitor = "${monitornitro}";
+        # secondMonitor = "${monitorExternal}";
       };
     }; # Pass flake variable
     modules = [
@@ -48,11 +49,11 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = {
-          inherit user doom-emacs hostname;
+          inherit user doom-emacs hostname monitornitro monitorExternal;
           host = {
             hostName = "${hostname}"; #For Xorg iGPU  | Videocard 
-            mainMonitor = "HDMI-1-0"; #HDMI-1-0         | HDMI-A-1
-            # secondMonitor = "eDP-1"; #eDP-1            | DisplayPort-1
+            mainMonitor = "${monitornitro}"; #${monitorExternal}         | HDMI-A-1
+            # secondMonitor = "${monitorExternal}"; #${monitornitro}            | DisplayPort-1
           };
         }; # Pass flake variable
         home-manager.users.${user} = {
@@ -69,11 +70,11 @@ in
     # nitro profile
     inherit system;
     specialArgs = {
-      inherit inputs user location hostname;
+      inherit inputs user location hostname monitornitro monitorExternal;
       host = {
         hostName = "${hostname}";
-        mainMonitor = "eDP-1";
-        secondMonitor = "HDMI-1-0";
+        mainMonitor = "${monitornitro}";
+        secondMonitor = "${monitorExternal}";
       };
     };
     modules = [
@@ -86,11 +87,11 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = {
-          inherit user hostname;
+          inherit user hostname monitornitro monitorExternal;
           host = {
             hostName = "${hostname}";
-            mainMonitor = "eDP-1";
-            secondMonitor = "HDMI-1-0";
+            mainMonitor = "${monitornitro}";
+            secondMonitor = "${monitorExternal}";
           };
         };
         home-manager.users.${user} = {
@@ -104,10 +105,10 @@ in
     # mcbair profile
     inherit system;
     specialArgs = {
-      inherit inputs user location hostname;
+      inherit inputs user location hostname monitormcbair monitorExternal;
       host = {
         hostName = "${hostname}";
-        mainMonitor = "eDP1";
+        mainMonitor = "${monitormcbair}";
       };
     };
     modules = [
@@ -120,10 +121,10 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = {
-          inherit user hostname;
+          inherit user hostname monitormcbair monitorExternal;
           host = {
             hostName = "${hostname}";
-            mainMonitor = "eDP1";
+            mainMonitor = "${monitormcbair}";
           };
         };
         home-manager.users.${user} = {
@@ -137,10 +138,10 @@ in
     # VM profile
     inherit system;
     specialArgs = {
-      inherit inputs user location hostname;
+      inherit inputs user location hostname monitorVM;
       host = {
         hostName = "${hostname}";
-        mainMonitor = "Virtual-1";
+        mainMonitor = "${monitorVM}";
       };
     };
     modules = [
@@ -152,10 +153,10 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = {
-          inherit user hostname;
+          inherit user hostname monitorVM;
           host = {
             hostName = "${hostname}";
-            mainMonitor = "Virtual-1";
+            mainMonitor = "${monitorVM}";
           };
         };
         home-manager.users.${user} = {

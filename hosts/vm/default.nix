@@ -67,7 +67,7 @@
         efiInstallAsRemovable = true;
         configurationLimit = 5; # do not store more than 5 gen backups
         forceInstall = true; # force installation
-        splashMode = "stretch";
+        # splashMode = "stretch";
         # theme = "";               # set theme
 
         ## If using zfs filesystem

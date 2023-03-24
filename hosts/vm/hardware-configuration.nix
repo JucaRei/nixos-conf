@@ -13,7 +13,9 @@
 #
 
 { config, lib, pkgs, modulesPath, hostname, ... }:
-
+let
+  hostname = "teste";
+in
 {
   imports = [ ];
 

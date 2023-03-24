@@ -66,9 +66,17 @@ nixos-generate-config --root /mnt
 # nix-env -iA nixos.git
 
 # git clone --depth=1 https://github.com/JucaRei/teste-repo /home/nixos/.setup
-# git clone --depth=1 https://github.com/JucaRei/teste-repo /mnt/etc/nixos
-
 # git clone --depth=1 https://github.com/JucaRei/nixos-conf /home/nixos/.setup
 
+
+## Install flake repo
 # sudo nixos-install -v --root /mnt --impure --flake /home/nixos/.setup#vm
 # sudo nixos-rebuild --flake /home/nixos/.setup#vm
+
+## Chroot 
+
+# nixos-enter --root /mnt                             # Start an interactive shell in the NixOS installation in /mnt
+# nixos-enter -c 'ls -l /; cat /proc/mounts'          # Run a shell command
+# nixos-enter -- cat /proc/mounts                     # Run a non-shell command
+
+# nix flake check --no-build github:NixOS/patchelf

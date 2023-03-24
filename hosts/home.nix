@@ -12,9 +12,12 @@
 #
 
 { config, lib, pkgs, user, ... }:
+let
+  user = "juca";
+in
 
-{ 
-  imports =                                   # Home Manager Modules
+{
+  imports = # Home Manager Modules
     (import ../modules/programs) ++
     (import ../modules/services);
 
@@ -24,38 +27,38 @@
 
     packages = with pkgs; [
       # Terminal
-      btop              # Resource Manager
-      nitch             # Minimal fetch
-      ranger            # File Manager
-      tldr              # Helper
+      btop # Resource Manager
+      nitch # Minimal fetch
+      ranger # File Manager
+      tldr # Helper
 
       # Video/Audio
       # feh               # Image Viewer
-      mpv               # Media Player
-      pavucontrol       # Audio Control
+      mpv # Media Player
+      pavucontrol # Audio Control
       # plex-media-player # Media Player
       # vlc               # Media Player
       # stremio           # Media Streamer
 
       # Apps
-      appimage-run      # Runs AppImages on NixOS
-      firefox           # Browser
+      appimage-run # Runs AppImages on NixOS
+      firefox # Browser
       # google-chrome     # Browser
       (vivaldi.override {
         proprietaryCodecs = true;
         enableWidevine = true;
       })
-      remmina           # XRDP & VNC Client
+      remmina # XRDP & VNC Client
 
       # File Management
       # gnome.file-roller # Archive Manager
       # okular            # PDF Viewer
       # pcmanfm           # File Manager
-      p7zip             # Zip Encryption
-      rsync             # Syncer - $ rsync -r dir1/ dir2/
-      unzip             # Zip Files
-      unrar             # Rar Files
-      zip               # Zip
+      p7zip # Zip Encryption
+      rsync # Syncer - $ rsync -r dir1/ dir2/
+      unzip # Zip Files
+      unrar # Rar Files
+      zip # Zip
 
       # General configuration
       #git              # Repositories
@@ -114,7 +117,7 @@
       #blueman          # Bluetooth
       #deluge           # Torrents
       #discord          # Chat
-      ffmpeg           # Video Support (dslr)
+      ffmpeg # Video Support (dslr)
       #gmtp             # Mount MTP (GoPro)
       #gphoto2          # Digital Photography
       #handbrake        # Encoder
@@ -132,7 +135,7 @@
       #cbatticon        # Battery Notifications
       #blueman          # Bluetooth
       #light            # Display Brightness
-      libreoffice      # Office Tools
+      libreoffice # Office Tools
       #simple-scan      # Scanning
       #
       # Flatpak
@@ -140,7 +143,8 @@
     ];
     # file.".config/wall".source = ../modules/themes/wall;
     # file.".config/wall.mp4".source = ../modules/themes/wall.mp4;
-    pointerCursor = {                         # This will set cursor system-wide so applications can not choose their own
+    pointerCursor = {
+      # This will set cursor system-wide so applications can not choose their own
       gtk.enable = true;
       name = "Dracula-cursors";
       #name = "Catppuccin-Mocha-Dark-Cursors";
@@ -155,7 +159,8 @@
     home-manager.enable = true;
   };
 
-  gtk = {                                     # Theming
+  gtk = {
+    # Theming
     enable = true;
     theme = {
       name = "Dracula";
@@ -174,10 +179,11 @@
     font = {
       #name = "JetBrains Mono Medium";
       name = "FiraCode Nerd Font Mono Medium";
-    };                                        # Cursor is declared under home.pointerCursor
+    }; # Cursor is declared under home.pointerCursor
   };
 
-  systemd.user.targets.tray = {               # Tray.target can not be found when xsession is not enabled. This fixes the issue.
+  systemd.user.targets.tray = {
+    # Tray.target can not be found when xsession is not enabled. This fixes the issue.
     Unit = {
       Description = "Home Manager System Tray";
       Requires = [ "graphical-session-pre.target" ];

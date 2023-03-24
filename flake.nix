@@ -86,6 +86,11 @@
       location = "$HOME/.setup";
       computerName = "vmbox";      # Set the computer name for each host you want to install
       hostname = "teste";      # Set the hostname name for each host you want to install
+      monitornitro = "eDP-1";
+      monitorExternal = "HDMI-1-0";
+      monitormcbair = "eDP1";
+      monitoroldmac = "LVDS-1";
+      monitorVM = "Virtual-1";
     in
     # Use above variables in ...
     {
@@ -94,7 +99,7 @@
         import ./hosts {
           # Imports ./hosts/default.nix
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs home-manager nur user computerName hostname location doom-emacs hyprland plasma-manager; # Also inherit home-manager so it does not need to be defined here.
+          inherit inputs nixpkgs home-manager nur user computerName hostname monitornitro monitorExternal monitormcbair monitoroldmac monitorVM location doom-emacs hyprland plasma-manager; # Also inherit home-manager so it does not need to be defined here.
         }
       );
 
@@ -102,7 +107,7 @@
         # Darwin Configurations
         import ./darwin {
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs home-manager darwin user computerName hostname;
+          inherit inputs nixpkgs home-manager darwin user monitormcbair monitoroldmac computerName hostname;
         }
       );
 
