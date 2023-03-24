@@ -21,6 +21,10 @@
     ../../modules/desktop/bspwm/default.nix # Window Manager
   ];
 
+  # boot.loader.efi = {
+  #   canTouchEfiVariables = true;
+  #   efiSysMountPoint = "/boot/efi";
+  # };
   boot = {
     # Boot options
     kernelPackages = pkgs.linuxPackages_latest;
@@ -31,8 +35,9 @@
     loader = {
 
       efi = {
-        canTouchEfiVariables = true;
-        efiSysMountPoint = "/mnt/boot/efi";
+        # canTouchEfiVariables = true;
+        canTouchEfiVariables = false;
+        efiSysMountPoint = "/boot";
       };
       timeout = 6;
 
