@@ -22,8 +22,8 @@ in
 
   users.users.${user} = {
     # System User
-    isSystemUser = true;
-    # isNormalUser = true;
+    # isSystemUser = true;
+    isNormalUser = true;
     # description = "Nixos"; # you can set your Full Name here, if you like it.
     # group = "nixuser";
     createHome = true;
