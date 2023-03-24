@@ -32,7 +32,7 @@
     loader = {
 
       efi = {
-        canTouchEfiVariables = true;
+        canTouchEfiVariables = false;
         efiSysMountPoint = "/boot/efi";
       };
       timeout = 6;
