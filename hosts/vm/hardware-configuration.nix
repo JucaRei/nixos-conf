@@ -19,7 +19,7 @@
 
   boot = {
     initrd = {
-      availableKernelModules = [ "ata_piix" "ahci" "xhci_pci" "sd_mod" "sr_mod" "virtio_blk" ];
+      availableKernelModules = [ "ata_piix" "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" "virtio_blk" ];
       kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
       checkJournalingFS = false; # for vm
       supportedFilesystems = [ "vfat" "btrfs" ];
@@ -86,7 +86,7 @@
     {
       device = "/dev/disk/by-partlabel/GRUB";
       fsType = "vfat";
-      options = [ "rw" "defaults" "noatime" "nodiratime" ];
+      options = [ "defaults" "noatime" "nodiratime" ];
     };
 
   swapDevices = [ ];
