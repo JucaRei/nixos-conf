@@ -42,10 +42,10 @@ in
   };
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    supportedLocales = [
-      "pt_BR.UTF-8"
-      "en_US.UTF-8"
-    ];
+    # supportedLocales = [
+    #   "pt_BR.UTF-8"
+    #   "en_US.UTF-8"
+    # ];
     extraLocaleSettings = {
       # Extra locale settings that need to be overwritten
       LC_TIME = "pt_BR.UTF-8";
