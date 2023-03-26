@@ -1,22 +1,26 @@
 #!/bin/sh
 
-umount -R /mnt
-sgdisk -Z /dev/vda
-parted -s -a optimal /dev/vda mklabel gpt
-sgdisk -n 0:0:512MiB /dev/vda
-sgdisk -n 0:0:0 /dev/vda
-sgdisk -t 1:ef00 /dev/vda
-sgdisk -t 2:8300 /dev/vda
-sgdisk -c 1:GRUB /dev/vda
-sgdisk -c 2:NIXOS /dev/vda
-parted /dev/vda -- set 1 esp on
-sgdisk -p /dev/vda
+export DRIVE="vda"
+export BOOT_PARTITION="${DRIVE}1"
+export ROOT_PARTITION="${DRIVE}2"
 
-mkfs.vfat -F32 /dev/vda1 -n "GRUB"
-mkfs.btrfs /dev/vda2 -f -L "NIXOS"
+umount -R /mnt
+sgdisk -Z /dev/$DRIVE
+parted -s -a optimal /dev/$DRIVE mklabel gpt
+sgdisk -n 0:0:512MiB /dev/$DRIVE
+sgdisk -n 0:0:0 /dev/$DRIVE
+sgdisk -t 1:ef00 /dev/$DRIVE
+sgdisk -t 2:8300 /dev/$DRIVE
+sgdisk -c 1:GRUB /dev/$DRIVE
+sgdisk -c 2:NIXOS /dev/$DRIVE
+parted /dev/$DRIVE -- set 1 esp on
+sgdisk -p /dev/$DRIVE
+
+mkfs.vfat -F32 /dev/$BOOT_PARTITION -n "GRUB"
+mkfs.btrfs /dev/$ROOT_PARTITION -f -L "NIXOS"
 
 BTRFS_OPTS="rw,noatime,ssd,compress-force=zstd:15,space_cache=v2,commit=120,autodefrag,discard=async"
-mount -o $BTRFS_OPTS /dev/vda2 /mnt
+mount -o $BTRFS_OPTS /dev/$ROOT_PARTITION /mnt
 btrfs su cr /mnt/@root
 btrfs su cr /mnt/@home
 btrfs su cr /mnt/@nix

@@ -13,51 +13,75 @@
 #
 
 { config, lib, pkgs, modulesPath, ... }:
-
+let
+  hostname = "nitro";
+in
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  boot = {
+    initrd = {
+      availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+      kernelModules = [ ];
+      supportedFilesystems = [ "vfat" "btrfs" ];
+      compressor = "zstd";
+    };
+    kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
+    extraModulePackages = [ ];
+    supportedFilesystems = [ "vfat" "btrfs" ];
+  };
+
+  ### Enable plymouth ###
+  plymouth = {
+    theme = "breeze";
+    enable = true;
+  };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-label/nixos";
+    {
+      device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/6E06-6221";
+    {
+      device = "/dev/disk/by-uuid/6E06-6221";
       fsType = "vfat";
     };
 
   swapDevices = [ ];
-  
+
   networking = {
-    useDHCP = false;                        # Deprecated
-    hostName = "laptop";
-    networkmanager.enable = true;
-    interfaces = {
-      enp0s25 = {
-        useDHCP = true;                     # For versatility sake, manually edit IP on nm-applet.
-        #ipv4.addresses = [ {
-        #    address = "192.168.0.51";
-        #    prefixLength = 24;
-        #} ];
-      };
-      wlo1 = {
-        useDHCP = true;
-        #ipv4.addresses = [ {
-        #  address = "192.168.0.51";
-        #  prefixLength = 24;
-        #} ];  
+    useDHCP = false; # Deprecated
+    hostName = "${hostname}";
+    networkmanager = {
+      enable = true;
+      plugins = with pkgs; [
+        networkmanager-openvpn
+        networkmanager-openconnect
+      ];
+      interfaces = {
+        eth0 = {
+          useDHCP = true; # For versatility sake, manually edit IP on nm-applet.
+          ipv4.addresses = [{
+            address = "192.168.1.35";
+            prefixLength = 24;
+          }];
+        };
+        wlan0 = {
+          useDHCP = true;
+          ipv4.addresses = [{
+            address = "192.168.1.50";
+            prefixLength = 24;
+          }];
+        };
       };
     };
-    defaultGateway = "192.168.0.1";
-    nameservers = [ "192.168.0.4" ];
+    defaultGateway = "192.168.1.1";
+    nameservers = [ "192.168.1.4" ];
     firewall = {
       enable = false;
       #allowedUDPPorts = [ 53 67 ];

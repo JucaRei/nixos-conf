@@ -9,8 +9,8 @@
       redshift = {
         enable = true;
         temperature.night = 3000;
-        latitude = 50.929818;
-        longitude = 5.338297;
+        latitude = -23.550520;
+        longitude = -46.633308;
       };
     };
   }; 

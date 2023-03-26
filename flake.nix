@@ -15,7 +15,7 @@
 #
 
 {
-  description = "My Personal NixOS and Darwin System Flake Configuration";
+  description = "My Personal NixOS configs and examples";
 
   inputs = # All flake references used to build my NixOS setup. These are dependencies.
     {

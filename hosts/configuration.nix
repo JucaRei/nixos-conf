@@ -97,6 +97,7 @@ in
     variables = {
       TERMINAL = "alacritty";
       EDITOR = "nvim";
+      LC_ALL = "en_US.UTF-8";
       VISUAL = "nvim";
     };
     systemPackages = with pkgs; [
@@ -173,6 +174,11 @@ in
     optimise.automatic = true;
     settings = {
       auto-optimise-store = true; # Optimise syslinks
+      warn-dirty = false;
+
+      # Avoid unwanted garbage collection when using nix-direnv
+      keep-outputs = true;
+      keep-derivations = true;
     };
     gc = {
       # Automatic garbage collection
