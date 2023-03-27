@@ -30,7 +30,7 @@ in
     # kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
     kernelModules = [ "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
     extraModulePackages = [ ];
-    kernelParams = [ "quiet" "splash" "vt.global_cursor_default=0" "loglevel=0" "gpt" "intel_iommu=on,igfx_off" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "nowatchdog" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" ];
+    kernelParams = [ "quiet" "splash" "mitigations=off" "mem_sleep_default=deep" ];
 
 
     ### Enable plymouth ###
