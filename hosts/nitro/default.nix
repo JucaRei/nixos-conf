@@ -1,4 +1,3 @@
-#
 #  Specific system configuration settings for desktop
 #
 #  flake.nix
@@ -29,7 +28,7 @@
     [ (import ../../modules/desktop/virtualisation/docker.nix) ] ++ # Docker
     [ (import ../../modules/programs/games.nix) ] ++ # Gaming
     (import ../../modules/desktop/virtualisation) ++ # Virtual Machines & VNC
-    (import ../../modules/hardware); # Hardware devices
+    (import ../../modules/hardware/work); # Nvidia
 
   boot = {
     isContainer = false;
