@@ -112,7 +112,7 @@ in
 
   zramSwap = {
     enable = true;
-    swapDevices = 4;
+    swapDevices = 2;
     algorithm = "zstd";
   };
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
