@@ -41,13 +41,14 @@ in
     hardwareClockInLocalTime = true; # hardware clock in local time instead of UTC
   };
   i18n = {
-    defaultLocale = "en_US.UTF-8";
-    # supportedLocales = [
-    #   "pt_BR.UTF-8"
-    #   "en_US.UTF-8"
-    # ];
+    # defaultLocale = "en_US.UTF-8";
+    supportedLocales = [
+      "pt_BR.UTF-8"
+      "en_US.UTF-8"
+    ];
     extraLocaleSettings = {
       # Extra locale settings that need to be overwritten
+      LANG = "en_US.UTF-8";
       LC_TIME = "pt_BR.UTF-8";
       LC_MONETARY = "pt_BR.UTF-8";
       LC_NUMERIC = "pt_BR.UTF-8";
@@ -55,6 +56,7 @@ in
       LC_ADDRESS = "pt_BR.UTF-8";
       LC_TELEPHONE = "pt_BR.UTF-8";
       LC_MEASUREMENT = "pt_BR.UTF-8";
+      LC_ALL = "en_US.UTF-8";
     };
   };
 
@@ -197,6 +199,8 @@ in
   nixpkgs.config = {
     allowUnfree = true; # Allow proprietary software. 
     # allowUnsupportedSystem = true; # For permanently allowing unsupported packages to be built.
+
+    allowUnfreePredicate = (_: true); # Workaround for https://github.com/nix-community/home-manager/issues/2942
   };
 
   system = {

@@ -1,10 +1,3 @@
-#
-#  G'Day
-#  Behold is my personal Nix, NixOS and Darwin Flake.
-#  I'm not the sharpest tool in the shed, so this build might not be the best out there.
-#  I refer to the README and other org document on how to use these files.
-#  Currently and possibly forever a Work In Progress.
-#
 #  flake.nix *             
 #   ├─ ./hosts
 #   │   └─ default.nix
@@ -60,7 +53,7 @@
 
       doom-emacs = {
         # Nix-community Doom Emacs
-        url = "github:nix-community/nix-doom-emacs";
+        url = "github:nix- community/nix-doom-emacs";
         inputs.nixpkgs.follows = "nixpkgs";
         inputs.emacs-overlay.follows = "emacs-overlay";
       };
@@ -81,11 +74,26 @@
 
   outputs = inputs @ { self, nixpkgs, home-manager, darwin, nur, nixgl, doom-emacs, hyprland, plasma-manager, ... }: # Function that tells my flake which to use and what do what to do with the dependencies.
     let
+      # # Systems that can run tests:
+      # supportedSystems = [
+      #   "aarch64-linux"
+      #   "i686-linux"
+      #   "x86_64-linux"
+      #   "aarch64-darwin" 
+      # ];
+
+      # # Function to generate a set based on supported systems:
+      # forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
+
+      # # Attribute set of nixpkgs for each system:
+      # nixpkgsFor = forAllSystems (system:
+      #   import inputs.nixpkgs { inherit system; });
+
       # Variables that can be used in the config files.
-      user = "juca";   # Set the name of user for each host you want to install
+      user = "juca"; # Set the name of user for each host you want to install
       location = "$HOME/.setup";
-      computerName = "vmbox";      # Set the computer name for each host you want to install
-      hostname = "teste";      # Set the hostname name for each host you want to install
+      computerName = "vmbox"; # Set the computer name for each host you want to install
+      hostname = "teste"; # Set the hostname name for each host you want to install
       monitornitro = "eDP-1";
       monitorExternal = "HDMI-1-0";
       monitormcbair = "eDP1";

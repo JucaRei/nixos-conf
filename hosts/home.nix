@@ -182,11 +182,16 @@ in
     }; # Cursor is declared under home.pointerCursor
   };
 
-  systemd.user.targets.tray = {
+  systemd.user = {
+    # Nicely reload system units when changing configs
+    startServices = "sd-switch";
+
     # Tray.target can not be found when xsession is not enabled. This fixes the issue.
-    Unit = {
-      Description = "Home Manager System Tray";
-      Requires = [ "graphical-session-pre.target" ];
+    targets.tray = {
+      Unit = {
+        Description = "Home Manager System Tray";
+        Requires = [ "graphical-session-pre.target" ];
+      };
     };
   };
 }
