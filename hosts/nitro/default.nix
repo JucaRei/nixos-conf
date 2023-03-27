@@ -56,6 +56,9 @@
         forceInstall = true; # force installation
         fsIdentifier = "label";
         # gfxmodeEfi = "1920x1080";
+        # zfsSupport = true; 
+        fontSize = 20;
+        configurationName = "NixOS Stable";
         extraEntries = ''
           menuentry "Reboot" {
             reboot

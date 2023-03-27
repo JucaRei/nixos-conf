@@ -17,8 +17,10 @@ let
   '';
 in
 {
-  environment.systemPackages = [ nvidia-offload ];
-
+  environment = {
+    systemPackages = [ nvidia-offload ];
+    sessionVariables.NIXOS_OZONE_WL = "1"; # Fix for electron apps with wayland
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
     opengl.enable = true;
@@ -28,6 +30,7 @@ in
         offload.enable = true;
         intelBusId = "PCI:0:2:0";
         nvidiaBusId = "PCI:1:0:0";
+        sync.enable = true; # will be always on and used for all rendering
       };
       modesetting.enable = true;
       powerManagement.enable = true;
