@@ -11,7 +11,7 @@
 #               └─ home.nix
 #
 
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
