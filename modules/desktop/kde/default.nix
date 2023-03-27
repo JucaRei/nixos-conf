@@ -31,12 +31,12 @@
       };
       desktopManager.plasma5 = {
         enable = true; # Desktop Manager
-        excludePackages = with pkgs.libsForQt5; [
-          elisa
-          khelpcenter
-          konsole
-          oxygen
-        ];
+        # excludePackages = with pkgs.libsForQt5; [
+        #   elisa
+        #   khelpcenter
+        #   konsole
+        #   oxygen
+        # ];
       };
     };
   };
@@ -44,6 +44,13 @@
   #hardware.pulseaudio.enable = false;
 
   environment = {
+    plasma5.excludePackages = with pkgs.libsForQt5;
+      [
+        elisa
+        khelpcenter
+        konsole
+        oxygen
+      ];
     systemPackages = with pkgs.libsForQt5; [
       # Packages installed
       packagekit-qt

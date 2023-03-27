@@ -19,7 +19,7 @@
     xserver = {
       enable = true;
 
-      layout = "us"; # Keyboard layout & €-sign
+      layout = "br"; # Keyboard layout & €-sign
       # xkbOptions = "eurosign:e";
       libinput.enable = true;
       # modules = [ pkgs.xf86_input_wacom ]; # Both needed for wacom tablet usage
@@ -27,9 +27,9 @@
 
       displayManager = {
         gdm.enable = true; # Display Manager
-        setupCommands = ''
-          xrandr --output Virtual-1 --mode 1920x1080
-        '';
+        # setupCommands = ''
+        #   xrandr --output Virtual-1 --mode 1920x1080
+        # '';
       };
       desktopManager.gnome.enable = true; # Window Manager
     };

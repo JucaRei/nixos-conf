@@ -33,7 +33,7 @@ in
     };
     kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
     # kernelParams = [ "quiet" "apparmor=1" "usbcore.autosuspend=-1" "intel_pstate=hwp_only" "security=apparmor" "kernel.unprivileged_userns_clone" "vt.global_cursor_default=0" "loglevel=0" "gpt" "init_on_alloc=0" "udev.log_level=0" "rd.driver.blacklist=grub.nouveau" "rcutree.rcu_idle_gp_delay=1" "intel_iommu=on,igfx_off" "nvidia-drm.modeset=1" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "nowatchdog" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" ];
-    kernelParams = [ "quiet" "apparmor=1" "security=apparmor" "kernel.unprivileged_userns_clone" "nvidia-drm.modeset=1" "gpt" "intel_iommu=on,igfx_off" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" "mem_sleep_default=deep" ];
+    kernelParams = [ "quiet" "apparmor=1" "security=apparmor" "kernel.unprivileged_userns_clone" "nvidia-drm.modeset=1" "gpt" "intel_iommu=on,igfx_off" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "intel_idle.max_cstate=1" "net.ifnames=0" "mem_sleep_default=deep" ];
     extraModulePackages = [ "config.boot.kernelPackages.nvidia_x11" ];
     supportedFilesystems = [ "vfat" "btrfs" ];
     kernelPackages = pkgs.linuxPackages_latest;
@@ -63,14 +63,45 @@ in
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
+      device = "/dev/disk/by-partlabel/NIXOS";
+      fsType = "btrfs";
+      options = [ "subvol=@root" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
     };
 
-  fileSystems."/boot" =
+  fileSystems."/home" =
     {
-      device = "/dev/disk/by-uuid/6E06-6221";
+      device = "/dev/disk/by-partlabel/NIXOS";
+      fsType = "btrfs";
+      options = [ "subvol=@home" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
+    };
+
+  fileSystems."/.snapshots" =
+    {
+      device = "/dev/disk/by-partlabel/NIXOS";
+      fsType = "btrfs";
+      options = [ "subvol=@snapshots" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
+    };
+
+  fileSystems."/var/tmp" =
+    {
+      device = "/dev/disk/by-partlabel/NIXOS";
+      fsType = "btrfs";
+      options = [ "subvol=@tmp" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
+    };
+
+  fileSystems."/nix" =
+    {
+      device = "/dev/disk/by-partlabel/NIXOS";
+      fsType = "btrfs";
+      options = [ "subvol=@nix" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
+    };
+
+  fileSystems."/boot/efi" =
+    {
+      device = "/dev/disk/by-partlabel/GRUB";
       fsType = "vfat";
+      options = [ "defaults" "noatime" "nodiratime" ];
+      noCheck = true;
     };
 
   swapDevices = [ ];
