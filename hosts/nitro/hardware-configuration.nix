@@ -53,13 +53,13 @@ in
       "options nouveau modeset=0"
     '';
     # blacklistedKernelModules = [ ];
-  };
-
-  ### Enable plymouth ###
+    ### Enable plymouth ###
   plymouth = {
     theme = "breeze";
     enable = true;
   };
+  };
+
 
   fileSystems."/" =
     {
@@ -107,6 +107,23 @@ in
   swapDevices = [ ];
 
   networking = {
+    interfaces = {
+      eth0 = {
+        useDHCP = true; # For versatility sake, manually edit IP on nm-applet.
+        ipv4.addresses = [{
+          address = "192.168.1.35";
+          prefixLength = 24;
+        }];
+      };
+
+        wlan0 = {
+          useDHCP = true;
+          ipv4.addresses = [{
+            address = "192.168.1.50";
+            prefixLength = 24;
+          }];
+        };
+    };
     useDHCP = false; # Deprecated
     hostName = "${hostname}";
     networkmanager = {
@@ -115,22 +132,6 @@ in
         networkmanager-openvpn
         networkmanager-openconnect
       ];
-      interfaces = {
-        eth0 = {
-          useDHCP = true; # For versatility sake, manually edit IP on nm-applet.
-          ipv4.addresses = [{
-            address = "192.168.1.35";
-            prefixLength = 24;
-          }];
-        };
-        wlan0 = {
-          useDHCP = true;
-          ipv4.addresses = [{
-            address = "192.168.1.50";
-            prefixLength = 24;
-          }];
-        };
-      };
     };
     defaultGateway = "192.168.1.1";
     nameservers = [ "192.168.1.4" ];

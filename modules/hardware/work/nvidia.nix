@@ -20,9 +20,6 @@ in
   environment = {
     systemPackages = [
       nvidia-offload
-      libva
-      libva-utils
-      glxinfo
     ];
     sessionVariables.NIXOS_OZONE_WL = "1"; # Fix for electron apps with wayland
   };

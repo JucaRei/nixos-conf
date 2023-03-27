@@ -39,7 +39,7 @@
 
       # EFI Boot
       efi = {
-        canTouchEfiVariables = true;
+        canTouchEfiVariables = false;
         efiSysMountPoint = "/boot/efi";
       };
       timeout = 6; # Grub auto select time
@@ -92,7 +92,7 @@
   services = {
     tlp.enable = true; # TLP and auto-cpufreq for power management
     #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
-    auto-cpufreq.enable = true;
+#     auto-cpufreq.enable = true;
     blueman.enable = true;
     printing = {
       # Printing and drivers for TS5300
