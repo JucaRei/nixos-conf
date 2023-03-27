@@ -25,7 +25,12 @@
       # modules = [ pkgs.xf86_input_wacom ]; # Both needed for wacom tablet usage
       # wacom.enable = true;
 
-      displayManager.gdm.enable = true; # Display Manager
+      displayManager = {
+        gdm.enable = true; # Display Manager
+        setupCommands = ''
+          xrandr --output Virtual-1 --mode 1920x1080
+        '';
+      };
       desktopManager.gnome.enable = true; # Window Manager
     };
     udev.packages = with pkgs; [

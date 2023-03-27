@@ -123,6 +123,8 @@
         userServices = true;
       };
     };
+
+    # Samba Config
     samba = {
       enable = true;
       shares = {
@@ -134,6 +136,12 @@
       };
       openFirewall = true;
     };
+
+    ## ZFS Services
+    # zfs = {
+    #   autoSnapshot.enable = true;
+    #   autoScrub.enable = true;
+    # };
   };
 
   #temporary bluetooth fix
