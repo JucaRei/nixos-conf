@@ -25,7 +25,8 @@
   imports = # For now, if applying to other system, swap files
     [ (import ./hardware-configuration.nix) ] ++ # Current system hardware config @ /etc/nixos/hardware-configuration.nix
     [ (import ../../modules/desktop/bspwm/default.nix) ] ++ # Window Manager
-    [ (import ../../modules/desktop/virtualisation/docker.nix) ] ++ # Docker
+    # [ (import ../../modules/desktop/virtualisation/docker.nix) ] ++ # Docker
+    [ (import ../../modules/desktop/virtualisation/podman.nix) ] ++ # Podman
     [ (import ../../modules/programs/games.nix) ] ++ # Gaming
     (import ../../modules/desktop/virtualisation) ++ # Virtual Machines & VNC
     (import ../../modules/hardware/work); # Nvidia
@@ -70,22 +71,6 @@
     };
   };
 
-  hardware = {
-    sane = {
-      # Used for scanning with Xsane
-      enable = true;
-      extraBackends = [ pkgs.sane-airscan ];
-    };
-    opengl = {
-      enable = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        vaapiIntel
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
-    };
-  };
 
   environment = {
     systemPackages = with pkgs; [

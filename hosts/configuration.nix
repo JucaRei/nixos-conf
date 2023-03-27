@@ -99,7 +99,7 @@ in
     variables = {
       TERMINAL = "alacritty";
       EDITOR = "nvim";
-      LC_ALL = "en_US.UTF-8";
+      # LC_ALL = "en_US.UTF-8";
       VISUAL = "nvim";
     };
     systemPackages = with pkgs; [

@@ -33,7 +33,7 @@ in
     };
     kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
     # kernelParams = [ "quiet" "apparmor=1" "usbcore.autosuspend=-1" "intel_pstate=hwp_only" "security=apparmor" "kernel.unprivileged_userns_clone" "vt.global_cursor_default=0" "loglevel=0" "gpt" "init_on_alloc=0" "udev.log_level=0" "rd.driver.blacklist=grub.nouveau" "rcutree.rcu_idle_gp_delay=1" "intel_iommu=on,igfx_off" "nvidia-drm.modeset=1" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "nowatchdog" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" ];
-    kernelParams = [ "quiet" "apparmor=1" "security=apparmor" "kernel.unprivileged_userns_clone" "nvidia-drm.modeset=1" "gpt" "intel_iommu=on,igfx_off" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" ];
+    kernelParams = [ "quiet" "apparmor=1" "security=apparmor" "kernel.unprivileged_userns_clone" "nvidia-drm.modeset=1" "gpt" "intel_iommu=on,igfx_off" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" "mem_sleep_default=deep" ];
     extraModulePackages = [ "config.boot.kernelPackages.nvidia_x11" ];
     supportedFilesystems = [ "vfat" "btrfs" ];
     kernelPackages = pkgs.linuxPackages_latest;
@@ -116,5 +116,42 @@ in
     memoryPercent = 20; # 20% of total memory 
     algorithm = "zstd";
   };
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  hardware = {
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    sane = {
+      # Used for scanning with Xsane
+      enable = true;
+      extraBackends = [ pkgs.sane-airscan ];
+    };
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-media-driver
+        vaapiIntel
+        nvidia-vaapi-driver
+        vaapiVdpau
+        libvdpau-va-gl
+      ];
+    };
+  };
+  services = {
+    btrfs.autoScrub.enable = true;
+    logind.lidSwitch = "suspend";
+    thermald.enable = true;
+    tlp = {
+      enable = true;
+      settings = {
+        START_CHARGE_THRESH_BAT0 = 0; # dummy value
+        STOP_CHARGE_THRESH_BAT0 = 1; # battery conservation mode
+        CPU_BOOST_ON_AC = 1;
+        CPU_BOOST_ON_BAT = 0;
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      };
+    };
+
+    upower.enable = true;
+  };
+
 }

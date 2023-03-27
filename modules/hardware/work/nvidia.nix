@@ -5,7 +5,7 @@
 # Currently only used with work laptop using NVIDIA MX330
 #
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
@@ -18,7 +18,12 @@ let
 in
 {
   environment = {
-    systemPackages = [ nvidia-offload ];
+    systemPackages = [
+      nvidia-offload
+      libva
+      libva-utils
+      glxinfo
+    ];
     sessionVariables.NIXOS_OZONE_WL = "1"; # Fix for electron apps with wayland
   };
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -27,13 +32,20 @@ in
     nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.stable;
       prime = {
-        offload.enable = true;
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
         intelBusId = "PCI:0:2:0";
         nvidiaBusId = "PCI:1:0:0";
-        sync.enable = true; # will be always on and used for all rendering
+        reverseSync.enable = true;
+        # sync.enable = true; # will be always on and used for all rendering
       };
       modesetting.enable = true;
-      powerManagement.enable = true;
+      powerManagement = {
+        enable = true;
+        finegrained = true;
+      };
     };
   };
 

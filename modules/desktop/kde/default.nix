@@ -8,7 +8,8 @@
   programs = {
     zsh.enable = true;
     dconf.enable = true;
-    kdeconnect = {                                # For GSConnect
+    kdeconnect = {
+      # For GSConnect
       enable = true;
       package = pkgs.gnomeExtensions.gsconnect;
     };
@@ -18,18 +19,18 @@
     xserver = {
       enable = true;
 
-      layout = "us";                              # Keyboard layout & €-sign
-      xkbOptions = "eurosign:e";
+      layout = "br"; # Keyboard layout & €-sign
+      # xkbOptions = "eurosign:e";
       libinput.enable = true;
-      modules = [ pkgs.xf86_input_wacom ];        # Both needed for wacom tablet usage
-      wacom.enable = true;
+      # modules = [ pkgs.xf86_input_wacom ]; # Both needed for wacom tablet usage
+      # wacom.enable = true;
 
       displayManager = {
-        sddm.enable = true;          # Display Manager
+        sddm.enable = true; # Display Manager
         defaultSession = "plasmawayland";
       };
       desktopManager.plasma5 = {
-        enable = true;                            # Desktop Manager
+        enable = true; # Desktop Manager
         excludePackages = with pkgs.libsForQt5; [
           elisa
           khelpcenter
@@ -43,7 +44,8 @@
   #hardware.pulseaudio.enable = false;
 
   environment = {
-    systemPackages = with pkgs.libsForQt5; [                 # Packages installed
+    systemPackages = with pkgs.libsForQt5; [
+      # Packages installed
       packagekit-qt
       bismuth
     ];

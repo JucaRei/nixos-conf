@@ -19,7 +19,8 @@
     # For now, if applying to other system, swap files
     ./hardware-configuration.nix # Current system hardware config @ /etc/nixos/hardware-configuration.nix
     # ../../modules/desktop/bspwm/default.nix # Window Manager
-    ../../modules/desktop/gnome/default.nix # Window Manager
+    # ../../modules/desktop/gnome/default.nix # Gnome
+    ../../modules/desktop/kde/default.nix # Kde
   ];
 
   boot = {
