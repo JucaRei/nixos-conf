@@ -106,7 +106,8 @@ in
 
   zramSwap = {
     enable = true;
-    swapDevices = 2;
+    swapDevices = 3;
+    memoryPercent = 20; # 20% of total memory 
     algorithm = "zstd";
   };
   hardware = {
