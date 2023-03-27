@@ -106,7 +106,6 @@ in
 
   zramSwap = {
     enable = true;
-    numDevices = 4;
     swapDevices = 4;
     algorithm = "zstd";
   };
