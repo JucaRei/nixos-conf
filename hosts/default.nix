@@ -1,20 +1,36 @@
 #
 #  These are the different profiles that can be used when building NixOS.
 #
-#  flake.nix 
-#   └─ ./hosts  
+#  flake.nix
+#   └─ ./hosts
 #       ├─ default.nix *
 #       ├─ configuration.nix
 #       ├─ home.nix
 #       └─ ./desktop OR ./nitro OR ./mcbair OR ./vm
 #            ├─ ./default.nix
-#            └─ ./home.nix 
+#            └─ ./home.nix
 #
-
-{ lib, inputs, nixpkgs, home-manager, nur, user, monitornitro, monitorExternal, monitormcbair, monitoroldmac, monitorVM, computerName, hostname, location, doom-emacs, hyprland, plasma-manager, ... }:
-
-let
-  system = "x86_64-linux";                                  # System architecture
+{
+  lib,
+  inputs,
+  nixpkgs,
+  home-manager,
+  nur,
+  user,
+  monitornitro,
+  monitorExternal,
+  monitormcbair,
+  monitoroldmac,
+  monitorVM,
+  computerName,
+  hostname,
+  location,
+  doom-emacs,
+  hyprland,
+  plasma-manager,
+  ...
+}: let
+  system = "x86_64-linux"; # System architecture
 
   pkgs = import nixpkgs {
     inherit system;
@@ -22,9 +38,7 @@ let
   };
 
   lib = nixpkgs.lib;
-
-in
-{
+in {
   desktop = lib.nixosSystem {
     # Desktop profile
     inherit system;
@@ -51,7 +65,7 @@ in
         home-manager.extraSpecialArgs = {
           inherit user doom-emacs hostname monitornitro monitorExternal;
           host = {
-            hostName = "${hostname}"; #For Xorg iGPU  | Videocard 
+            hostName = "${hostname}"; #For Xorg iGPU  | Videocard
             mainMonitor = "${monitornitro}"; #${monitorExternal}         | HDMI-A-1
             # secondMonitor = "${monitorExternal}"; #${monitornitro}            | DisplayPort-1
           };
@@ -95,7 +109,7 @@ in
           };
         };
         home-manager.users.${user} = {
-          imports = [ (import ./home.nix) ] ++ [ (import ./nitro/home.nix) ];
+          imports = [(import ./home.nix)] ++ [(import ./nitro/home.nix)];
         };
       }
     ];
@@ -128,7 +142,7 @@ in
           };
         };
         home-manager.users.${user} = {
-          imports = [ (import ./home.nix) ] ++ [ (import ./mcbair/home.nix) ];
+          imports = [(import ./home.nix)] ++ [(import ./mcbair/home.nix)];
         };
       }
     ];
@@ -160,7 +174,7 @@ in
           };
         };
         home-manager.users.${user} = {
-          imports = [ (import ./home.nix) ] ++ [ (import ./vm/home.nix) ];
+          imports = [(import ./home.nix)] ++ [(import ./vm/home.nix)];
         };
       }
     ];

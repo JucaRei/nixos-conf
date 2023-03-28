@@ -18,47 +18,55 @@
 #       └─ ./hardware
 #           └─ default.nix
 #
-
-{ config, pkgs, user, ... }:
-
 {
-  imports = # For now, if applying to other system, swap files
-    [ (import ./hardware-configuration.nix) ] ++ # Current system hardware config @ /etc/nixos/hardware-configuration.nix
-    [ (import ../../modules/desktop/gnome/default.nix) ] ++ # Gnome
+  config,
+  pkgs,
+  user,
+  ...
+}: {
+  imports =
+    # For now, if applying to other system, swap files
+    [(import ./hardware-configuration.nix)]
+    ++ # Current system hardware config @ /etc/nixos/hardware-configuration.nix
+    [(import ../../modules/desktop/gnome/default.nix)]
+    ++ # Gnome
+    
     # [ (import ../../modules/desktop/virtualisation/docker.nix) ] ++ # Docker
-    [ (import ../../modules/desktop/virtualisation/podman.nix) ] ++ # Podman
-    [ (import ../../modules/programs/games.nix) ] ++ # Gaming
-    (import ../../modules/desktop/virtualisation) ++ # Virtual Machines & VNC
-    (import ../../modules/hardware/work); # Nvidia
+    [(import ../../modules/desktop/virtualisation/podman.nix)]
+    ++ # Podman
+    [(import ../../modules/programs/games.nix)]
+    ++ # Gaming
+    (import ../../modules/desktop/virtualisation)
+    ++ # Virtual Machines & VNC
+    (import ../../modules/hardware/work/Nvidia.nix); # Nvidia
 
   boot = {
     isContainer = false;
     # Boot options
 
     loader = {
-
       # EFI Boot
       efi = {
-        canTouchEfiVariables = false;
+        canTouchEfiVariables = false; # EFI
         efiSysMountPoint = "/boot/efi";
       };
-      timeout = 6; # Grub auto select time
+      timeout = 5; # Grub auto select time
 
       grub = {
         # Most of grub is set up for dual boot
         enable = true;
         version = 2;
-        devices = [ "nodev" ];
+        devices = ["nodev"];
         efiSupport = true;
         efiInstallAsRemovable = true;
         useOSProber = true; # Find all boot options
         configurationLimit = 5; # do not store more than 5 gen backups
         forceInstall = true; # force installation
-        fsIdentifier = "label";
+        fsIdentifier = "label"; # Identify mount points by label
         # gfxmodeEfi = "1920x1080";
-        # zfsSupport = true; 
+        # zfsSupport = true;  # if using zfs
         fontSize = 20;
-        configurationName = "NixOS Stable";
+        configurationName = "NixOS Nitro 5";
         extraEntries = ''
           menuentry "Reboot" {
             reboot
@@ -70,7 +78,6 @@
       };
     };
   };
-
 
   environment = {
     systemPackages = with pkgs; [
@@ -84,7 +91,7 @@
   };
 
   programs = {
-    # No xbacklight, this is the alterantive
+    # No xbacklight, this is the alternative
     dconf.enable = true;
     light.enable = true;
   };
@@ -92,12 +99,12 @@
   services = {
     tlp.enable = true; # TLP and auto-cpufreq for power management
     #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
-#     auto-cpufreq.enable = true;
+    #     auto-cpufreq.enable = true;
     blueman.enable = true;
     printing = {
       # Printing and drivers for TS5300
       enable = true;
-      drivers = [ pkgs.cnijfilter2 ];
+      drivers = [pkgs.cnijfilter2];
     };
     avahi = {
       # Needed to find wireless printer
@@ -118,7 +125,7 @@
         share = {
           "path" = "/home/${user}";
           "guest ok" = "no";
-          "read only" = "no";
+          "read only" = "yes";
         };
       };
       openFirewall = true;
@@ -136,6 +143,6 @@
     tmpfiles.rules = [
       "d /var/lib/bluetooth 700 root root - -"
     ];
-    targets."bluetooth".after = [ "systemd-tmpfiles-setup.service" ];
+    targets."bluetooth".after = ["systemd-tmpfiles-setup.service"];
   };
 }

@@ -10,16 +10,19 @@
 #       └─ ./services
 #           └─ default.nix
 #
-
-{ config, lib, pkgs, user, ... }:
-let
-  user = "juca";
-in
-
 {
-  imports = # Home Manager Modules
-    (import ../modules/programs) ++
-    (import ../modules/services);
+  config,
+  lib,
+  pkgs,
+  user,
+  ...
+}: let
+  user = "juca";
+in {
+  imports =
+    # Home Manager Modules
+    (import ../modules/programs)
+    ++ (import ../modules/services);
 
   home = {
     username = "${user}";
@@ -28,6 +31,7 @@ in
     packages = with pkgs; [
       # Terminal
       btop # Resource Manager
+      htop # lightweight Resource Manager
       nitch # Minimal fetch
       ranger # File Manager
       tldr # Helper
@@ -35,7 +39,7 @@ in
       # Video/Audio
       # feh               # Image Viewer
       mpv # Media Player
-      pavucontrol # Audio Control
+      # pavucontrol # Audio Control
       # plex-media-player # Media Player
       # vlc               # Media Player
       # stremio           # Media Streamer
@@ -61,7 +65,7 @@ in
       zip # Zip
 
       # General configuration
-      #git              # Repositories
+      git # Repositories
       #killall          # Stop Applications
       #nano             # Text Editor
       #pciutils         # Computer Utility Info
@@ -130,7 +134,7 @@ in
       #steam            # Games
       #simple-scan      # Scanning
       #sshpass          # Ansible dependency
-      # 
+      #
       # Laptop
       #cbatticon        # Battery Notifications
       #blueman          # Bluetooth
@@ -190,7 +194,7 @@ in
     targets.tray = {
       Unit = {
         Description = "Home Manager System Tray";
-        Requires = [ "graphical-session-pre.target" ];
+        Requires = ["graphical-session-pre.target"];
       };
     };
   };

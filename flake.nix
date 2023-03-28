@@ -1,4 +1,4 @@
-#  flake.nix *             
+#  flake.nix *
 #   ├─ ./hosts
 #   │   └─ default.nix
 #   ├─ ./darwin
@@ -6,11 +6,11 @@
 #   └─ ./nix
 #       └─ default.nix
 #
-
 {
   description = "My Personal NixOS configs and examples";
 
-  inputs = # All flake references used to build my NixOS setup. These are dependencies.
+  inputs =
+    # All flake references used to build my NixOS setup. These are dependencies.
     {
       # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";                  # Nix Packages
 
@@ -22,6 +22,8 @@
       nixpkgs.follows = "nixpkgs-unstable";
       unstable.follows = "nixpkgs-unstable";
       stable.follows = "nixpkgs-2211";
+
+      nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
       home-manager = {
         # User Package Management
@@ -72,34 +74,43 @@
       };
     };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, darwin, nur, nixgl, doom-emacs, hyprland, plasma-manager, ... }: # Function that tells my flake which to use and what do what to do with the dependencies.
-    let
-      # # Systems that can run tests:
-      # supportedSystems = [
-      #   "aarch64-linux"
-      #   "i686-linux"
-      #   "x86_64-linux"
-      #   "aarch64-darwin" 
-      # ];
-
-      # # Function to generate a set based on supported systems:
-      # forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
-
-      # # Attribute set of nixpkgs for each system:
-      # nixpkgsFor = forAllSystems (system:
-      #   import inputs.nixpkgs { inherit system; });
-
-      # Variables that can be used in the config files.
-      user = "juca"; # Set the name of user for each host you want to install
-      location = "$HOME/.setup";
-      computerName = "vmbox"; # Set the computer name for each host you want to install
-      hostname = "teste"; # Set the hostname name for each host you want to install
-      monitornitro = "eDP-1";
-      monitorExternal = "HDMI-1-0";
-      monitormcbair = "eDP1";
-      monitoroldmac = "LVDS-1";
-      monitorVM = "Virtual-1";
-    in
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    home-manager,
+    darwin,
+    nur,
+    nixgl,
+    doom-emacs,
+    hyprland,
+    plasma-manager,
+    ...
+  }:
+  # Function that tells my flake which to use and what do what to do with the dependencies.
+  let
+    # # Systems that can run tests:
+    # supportedSystems = [
+    #   "aarch64-linux"
+    #   "i686-linux"
+    #   "x86_64-linux"
+    #   "aarch64-darwin"
+    # ];
+    # # Function to generate a set based on supported systems:
+    # forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
+    # # Attribute set of nixpkgs for each system:
+    # nixpkgsFor = forAllSystems (system:
+    #   import inputs.nixpkgs { inherit system; });
+    # Variables that can be used in the config files.
+    user = "juca"; # Set the name of user for each host you want to install
+    location = "$HOME/.setup";
+    computerName = "vmbox"; # Set the computer name for each host you want to install
+    hostname = "teste"; # Set the hostname name for each host you want to install
+    monitornitro = "eDP-1";
+    monitorExternal = "HDMI-1-0";
+    monitormcbair = "eDP1";
+    monitoroldmac = "LVDS-1";
+    monitorVM = "Virtual-1";
+  in
     # Use above variables in ...
     {
       nixosConfigurations = (

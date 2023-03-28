@@ -10,14 +10,19 @@
 #       └─ ./shell
 #           └─ default.nix
 #
-
-{ config, lib, pkgs, inputs, user, ... }:
-let
-  user = "juca";
-in
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  user,
+  ...
+}: let
+  user = "juca";
+in {
   imports =
-    (import ../modules/editors) ++ # Native doom emacs instead of nix-community flake
+    (import ../modules/editors)
+    ++ # Native doom emacs instead of nix-community flake
     (import ../modules/shell);
 
   users.users.${user} = {
@@ -30,14 +35,14 @@ in
     uid = 1000;
     autoSubUidGidRange = true; # Allocated range is currently always of size 65536
     initialPassword = "123"; # remember of changing the password when log in.
-    extraGroups = [ "wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex" ];
+    extraGroups = ["wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex"];
     shell = pkgs.zsh; # Default shell
     # shell = "/bin/bash"
   };
   security.sudo.wheelNeedsPassword = false; # User does not need to give password when using sudo.
 
   time = {
-    timeZone = "America/Sao_Paulo"; # Time zone and internationalisation 
+    timeZone = "America/Sao_Paulo"; # Time zone and internationalisation
     hardwareClockInLocalTime = true; # hardware clock in local time instead of UTC
   };
   i18n = {
@@ -79,22 +84,48 @@ in
   #  };
   #};
 
-  fonts.fonts = with pkgs; [
-    # Fonts
-    carlito # NixOS
-    vegur # NixOS
-    source-code-pro
-    jetbrains-mono
-    font-awesome # Icons
-    corefonts # MS
-    (nerdfonts.override {
-      # Nerdfont Icons override
-      fonts = [
-        "FiraCode"
-      ];
-    })
-  ];
+  fonts = {
+    fonts = with pkgs; [
+      # Fonts
+      carlito # NixOS
+      vegur # NixOS
+      source-code-pro
+      jetbrains-mono
+      lato
+      roboto
+      iosevka-bin
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      font-awesome # Icons
+      corefonts # MS
+      (nerdfonts.override {
+        # Nerdfont Icons override
+        fonts = [
+          "FiraCode"
+          "Iosevka"
+          "JetBrainsMono"
+        ];
+      })
+    ];
 
+    enableDefaultFonts = false;
+
+    # this fixes emoji stuff
+    fontconfig = {
+      defaultFonts = {
+        monospace = [
+          "Iosevka Term"
+          "Iosevka Term Nerd Font Complete Mono"
+          "Iosevka Nerd Font"
+          "Noto Color Emoji"
+        ];
+        sansSerif = ["Lexend" "Noto Color Emoji"];
+        serif = ["Noto Serif" "Noto Color Emoji"];
+        emoji = ["Noto Color Emoji"];
+      };
+    };
+  };
   environment = {
     variables = {
       TERMINAL = "alacritty";
@@ -191,16 +222,16 @@ in
     package = pkgs.nixVersions.unstable; # Enable nixFlakes on system
     registry.nixpkgs.flake = inputs.nixpkgs;
     extraOptions = ''
-      experimental-features = nix-command flakes
+      experimental-features = nix-command flakes repl-flake
       keep-outputs          = true
       keep-derivations      = true
     '';
   };
   nixpkgs.config = {
-    allowUnfree = true; # Allow proprietary software. 
+    allowUnfree = true; # Allow proprietary software.
     # allowUnsupportedSystem = true; # For permanently allowing unsupported packages to be built.
 
-    allowUnfreePredicate = (_: true); # Workaround for https://github.com/nix-community/home-manager/issues/2942
+    allowUnfreePredicate = _: true; # Workaround for https://github.com/nix-community/home-manager/issues/2942
   };
 
   system = {
