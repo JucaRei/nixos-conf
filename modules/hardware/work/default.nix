@@ -14,5 +14,5 @@
 
 [
   ./nvidia.nix
-  # ./wpa.nix
+  ./wpa.nix
 ]

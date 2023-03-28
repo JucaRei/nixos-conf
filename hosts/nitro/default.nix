@@ -30,15 +30,11 @@
     ++ # Current system hardware config @ /etc/nixos/hardware-configuration.nix
     [(import ../../modules/desktop/gnome/default.nix)]
     ++ # Gnome
-    
-    # [ (import ../../modules/desktop/virtualisation/docker.nix) ] ++ # Docker
-    [(import ../../modules/desktop/virtualisation/podman.nix)]
-    ++ # Podman
     [(import ../../modules/programs/games.nix)]
     ++ # Gaming
-    [(import ../../modules/desktop/virtualisation)]
+    (import ../../modules/desktop/virtualisation)
     ++ # Virtual Machines & VNC
-    [(import ../../modules/hardware/work/nvidia.nix)]; # Nvidia
+    (import ../../modules/hardware/work); # Nvidia
 
   boot = {
     isContainer = false;

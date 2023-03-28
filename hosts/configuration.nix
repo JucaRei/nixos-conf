@@ -35,7 +35,8 @@ in {
     uid = 1000;
     autoSubUidGidRange = true; # Allocated range is currently always of size 65536
     initialPassword = "123"; # remember of changing the password when log in.
-    extraGroups = ["wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex"];
+    # extraGroups = ["wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex"];
+    extraGroups = ["wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd"];
     shell = pkgs.zsh; # Default shell
     # shell = "/bin/bash"
   };

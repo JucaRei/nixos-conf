@@ -48,14 +48,14 @@ in {
       "vm.dirty_ratio" = 50;
       "dev.i915.perf_stream_paranoid" = 0;
     };
-    extraModprobeConfig = ''
-      "install iTCO_wdt /bin/true"
-      "install iTCO_vendor_support /bin/true"
+    # extraModprobeConfig = ''
+    #   "install iTCO_wdt /bin/true"
+    #   "install iTCO_vendor_support /bin/true"
 
-      "options i915 enable_guc=2 enable_fbc=1 enable_dc=4 enable_hangcheck=0 error_capture=0 enable_dp_mst=0 fastboot=1 #parameters may differ"
-      "options nvidia_drm modeset=1"
-      "options nouveau modeset=0"
-    '';
+    #   "options i915 enable_guc=2 enable_fbc=1 enable_dc=4 enable_hangcheck=0 error_capture=0 enable_dp_mst=0 fastboot=1 #parameters may differ"
+    #   "options nvidia_drm modeset=1"
+    #   "options nouveau modeset=0"
+    # '';
     # blacklistedKernelModules = [ ];
     ### Enable plymouth ###
     plymouth = {
@@ -161,7 +161,7 @@ in {
       enable = true;
       extraPackages = with pkgs; [
         intel-media-driver
-        vaapiIntel
+        # vaapiIntel
         vaapiVdpau
         libvdpau-va-gl
       ];
