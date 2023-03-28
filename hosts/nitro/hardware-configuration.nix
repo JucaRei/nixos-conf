@@ -37,7 +37,8 @@ in
     #extraModulePackages = [ "config.boot.kernelPackages.nvidia_x11" ];
     supportedFilesystems = [ "vfat" "btrfs" ];
     #kernelPackages = pkgs.linuxPackages_latest;
-    kernelPackages = pkgs.linuxPackages_xanmod_stable;
+
+    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     kernel.sysctl = {
       "vm.vfs_cache_pressure" = 500;
       "vm.swappiness" = 100;
