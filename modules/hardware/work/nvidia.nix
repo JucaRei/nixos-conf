@@ -15,6 +15,12 @@ let
     export __VK_LAYER_NV_optimus=NVIDIA_only
     exec "$@"
   '';
+  
+  # Nvidia fix
+  master = import (builtins.fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/master.tar.gz";
+  }) {config = removeAttrs config.nixpkgs.config [ "packageOverrides" ];};
+  
 in
 {
   environment = {
@@ -66,6 +72,10 @@ in
   #    hardware.nvidia.powerManagement.enable = lib.mkForce false;
   #  };
   #};
-
+  
+  # Fix nvidia
+  nixpkgs.config.packageOverrides = pkgs: {
+    nvidia-vaapi-driver = master.nvidia-vaapi-driver;
+   };
   #boot.kernelParams = [ "modules_blacklist=i915" ];
 }
