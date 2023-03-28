@@ -36,9 +36,9 @@
     ++ # Podman
     [(import ../../modules/programs/games.nix)]
     ++ # Gaming
-    (import ../../modules/desktop/virtualisation)
+    [(import ../../modules/desktop/virtualisation)]
     ++ # Virtual Machines & VNC
-    (import ../../modules/hardware/work/Nvidia.nix); # Nvidia
+    [(import ../../modules/hardware/work/nvidia.nix)]; # Nvidia
 
   boot = {
     isContainer = false;
