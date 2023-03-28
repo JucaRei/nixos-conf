@@ -6,6 +6,8 @@ export ROOT_PARTITION="${DRIVE}5"
 
 umount -R /mnt
 # sgdisk -Z /dev/$DRIVE
+sgdisk -Z /dev/$BOOT_PARTITION
+sgdisk -Z /dev/$ROOT_PARTITION
 # parted -s -a optimal /dev/$DRIVE mklabel gpt
 # sgdisk -n 0:0:512MiB /dev/$DRIVE
 # sgdisk -n 0:0:0 /dev/$DRIVE

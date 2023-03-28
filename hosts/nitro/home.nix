@@ -24,6 +24,8 @@
     packages = with pkgs; [
       # Applications
       libreoffice # Office packages
+      vscode
+      tilix
 
       # Display
       #light                              # xorg.xbacklight not supported. Other option is just use xrandr.
@@ -35,7 +37,7 @@
   };
 
   programs = {
-    alacritty.settings.font.size = 11;
+    alacritty.settings.font.size = 12;
   };
 
   services = {

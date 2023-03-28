@@ -31,12 +31,13 @@ in
       supportedFilesystems = [ "vfat" "btrfs" ];
       compressor = "zstd";
     };
-    kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
+    kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
     # kernelParams = [ "quiet" "apparmor=1" "usbcore.autosuspend=-1" "intel_pstate=hwp_only" "security=apparmor" "kernel.unprivileged_userns_clone" "vt.global_cursor_default=0" "loglevel=0" "gpt" "init_on_alloc=0" "udev.log_level=0" "rd.driver.blacklist=grub.nouveau" "rcutree.rcu_idle_gp_delay=1" "intel_iommu=on,igfx_off" "nvidia-drm.modeset=1" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "nowatchdog" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" ];
     kernelParams = [ "quiet" "apparmor=1" "security=apparmor" "kernel.unprivileged_userns_clone" "nvidia-drm.modeset=1" "gpt" "intel_iommu=on,igfx_off" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "intel_idle.max_cstate=1" "net.ifnames=0" "mem_sleep_default=deep" ];
-    extraModulePackages = [ "config.boot.kernelPackages.nvidia_x11" ];
+    #extraModulePackages = [ "config.boot.kernelPackages.nvidia_x11" ];
     supportedFilesystems = [ "vfat" "btrfs" ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    #kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_xanmod_stable;
     kernel.sysctl = {
       "vm.vfs_cache_pressure" = 500;
       "vm.swappiness" = 100;
@@ -161,7 +162,6 @@ in
       extraPackages = with pkgs; [
         intel-media-driver
         vaapiIntel
-        nvidia-vaapi-driver
         vaapiVdpau
         libvdpau-va-gl
       ];
@@ -171,6 +171,7 @@ in
     btrfs.autoScrub.enable = true;
     logind.lidSwitch = "suspend";
     thermald.enable = true;
+    power-profiles-daemon.enable = false;
     tlp = {
       enable = true;
       settings = {

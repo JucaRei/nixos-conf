@@ -24,10 +24,18 @@ in
     sessionVariables.NIXOS_OZONE_WL = "1"; # Fix for electron apps with wayland
   };
   services.xserver.videoDrivers = [ "nvidia" ];
+  # services.xserver.videoDrivers = [ "nvidiaLegacy470" ];
   hardware = {
-    opengl.enable = true;
+    opengl = {
+      enable = true;
+      driSupport32Bit = true;
+    };
     nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      #package = config.boot.kernelPackages.nvidiaPackages.beta;
+      # package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+      #open = true;
+      nvidiaPersistenced = true;
       prime = {
         offload = {
           enable = true;
@@ -45,6 +53,15 @@ in
       };
     };
   };
+
+  ## booting with an external display
+  #specialisation = {
+  #  external-display.configuration = {
+  #    system.nixos.tags = [ "external-display" ];
+  #    hardware.nvidia.prime.offload.enable = lib.mkForce false;
+  #    hardware.nvidia.powerManagement.enable = lib.mkForce false;
+  #  };
+  #};
 
   #boot.kernelParams = [ "modules_blacklist=i915" ];
 }
