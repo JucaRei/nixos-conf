@@ -10,14 +10,10 @@
 #           └─ ./bspwm
 #              └─ home.nix
 #
-
-{ pkgs, ... }:
-
-{
-  imports =
-    [
-      # ../../modules/desktop/bspwm/home.nix # Window Manager
-    ];
+{pkgs, ...}: {
+  imports = [
+    # ../../modules/desktop/bspwm/home.nix # Window Manager
+  ];
 
   home = {
     # Specific packages for laptop
@@ -26,6 +22,9 @@
       libreoffice # Office packages
       vscode
       tilix
+      duf
+      bat
+      exa
 
       # Display
       #light                              # xorg.xbacklight not supported. Other option is just use xrandr.

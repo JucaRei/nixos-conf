@@ -80,10 +80,10 @@
       simple-scan
       x11vnc
     ];
-    variables = {
+    # variables = {
       # LIBVA_DRIVER_NAME = "i965";
-      LIBVA_DRIVER_NAME = "i915";
-    };
+      # LIBVA_DRIVER_NAME = "i915";
+    # };
   };
 
   programs = {

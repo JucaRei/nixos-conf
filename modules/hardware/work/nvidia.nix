@@ -40,23 +40,23 @@ in {
   };
   services.xserver.videoDrivers = [
     "nvidia"
-    "nvidiaLegacy470"
-    "modesetting"
+    # "nvidiaLegacy470"
+    # "modesetting"
   ];
   # services.xserver.videoDrivers = [ "nvidiaLegacy470" ];
   hardware = {
     opengl = {
       enable = true;
       driSupport32Bit = true;
-      extraPackages = with pkgs; ["nvidia-vaapi-driver"];
+      # extraPackages = with pkgs; ["nvidia-vaapi-driver"];
     };
     nvidia = {
-      # package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
       # package = config.boot.kernelPackages.nvidiaPackages.stable;
       # package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
       # package = pkgs.linuxKernel.packages.linux_xanmod_stable.nvidia_x11_legacy470;
       # package = pkgs.linuxKernel.packages.linux_xanmod_stable.nvidia_x11_stable_open;
-      package = pkgs.linuxKernel.packages.linux_zen.nvidia_x11;
+      # package = pkgs.linuxKernel.packages.linux_zen.nvidia_x11;
 
       # open = true; # opensource
       nvidiaSettings = true;
@@ -69,7 +69,7 @@ in {
         intelBusId = "PCI:0:2:0";
         nvidiaBusId = "PCI:1:0:0";
         # reverseSync.enable = true;
-        sync.enable = true; # will be always on and used for all rendering
+        # sync.enable = true; # will be always on and used for all rendering
       };
       modesetting.enable = true;
       powerManagement = {
