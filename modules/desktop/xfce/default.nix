@@ -1,10 +1,12 @@
 #
-# Gnome configuration
+# XFCE4 configuration
 #
-
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs = {
     zsh.enable = true;
     dconf.enable = true;
@@ -19,13 +21,28 @@
     xserver = {
       enable = true;
 
-      layout = "us"; # Keyboard layout & €-sign
-      # xkbOptions = "eurosign:e";
-      libinput.enable = true;
-      modules = [ pkgs.xf86_input_wacom ]; # Both needed for wacom tablet usage
-      wacom.enable = true;
+      # Brazil layout
+      layout = "br"; # Keyboard layout
+      xkbModel = "pc105";
+      xkbVariant = "nativo";
+      # xkbVariant = "nativo-us"; # nativo for us keyboards
 
-      displayManager.gdm.enable = true; # Display Manager
+      # Mac
+      # layout = "us"; # Keyboard layout
+      # xkbModel = "pc105";
+      # xkbVariant = "mac";
+
+      libinput.enable = true;
+
+      displayManager = {
+        # setupCommands = ''
+        #   LEFT='HDMI-1-0'
+        #   # CENTER='DVI-I-1'
+        #   RIGHT='eDP-1'
+        #   ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT --rotate left --left-of --output $RIGHT --right-of $LEFT
+        # '';
+        gdm.enable = true; # Display Manager
+      };
       desktopManager.gnome.enable = true; # Window Manager
     };
     udev.packages = with pkgs; [
@@ -42,21 +59,23 @@
       gnome.gnome-tweaks
       gnome.adwaita-icon-theme
     ];
-    gnome.excludePackages = (with pkgs; [
-      # Gnome ignored packages
-      gnome-tour
-    ]) ++ (with pkgs.gnome; [
-      gedit
-      epiphany
-      geary
-      gnome-characters
-      tali
-      iagno
-      hitori
-      atomix
-      yelp
-      gnome-contacts
-      gnome-initial-setup
-    ]);
+    gnome.excludePackages =
+      (with pkgs; [
+        # Gnome ignored packages
+        gnome-tour
+      ])
+      ++ (with pkgs.gnome; [
+        gedit
+        epiphany
+        geary
+        gnome-characters
+        tali
+        iagno
+        hitori
+        atomix
+        yelp
+        gnome-contacts
+        gnome-initial-setup
+      ]);
   };
 }

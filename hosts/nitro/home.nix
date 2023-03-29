@@ -23,6 +23,7 @@
       vscode
       tilix
       duf
+      glow
       bat
       exa
 

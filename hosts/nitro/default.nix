@@ -75,16 +75,16 @@
     };
   };
 
-  environment = {
-    systemPackages = with pkgs; [
-      simple-scan
-      x11vnc
-    ];
-    # variables = {
-      # LIBVA_DRIVER_NAME = "i965";
-      # LIBVA_DRIVER_NAME = "i915";
-    # };
-  };
+  # environment = {
+  #   systemPackages = with pkgs; [
+  #     # simple-scan
+  #     # x11vnc
+  #   ];
+  #   # variables = {
+  # LIBVA_DRIVER_NAME = "i965";
+  # LIBVA_DRIVER_NAME = "i915";
+  # };
+  # };
 
   programs = {
     # No xbacklight, this is the alternative

@@ -11,29 +11,32 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 #
-
-{ config, lib, pkgs, modulesPath, hostname, ... }:
-let
-  hostname = "teste";
-in
 {
-  imports = [ ];
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  hostname,
+  ...
+}: let
+  hostname = "teste";
+in {
+  imports = [];
 
   boot = {
     consoleLogLevel = 0;
     initrd = {
-      availableKernelModules = [ "ata_piix" "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" "virtio_blk" ];
-      kernelModules = [ "kvm-intel" ];
+      availableKernelModules = ["ata_piix" "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" "virtio_blk"];
+      kernelModules = ["kvm-intel"];
       checkJournalingFS = false; # for vm
-      supportedFilesystems = [ "vfat" "btrfs" ];
+      supportedFilesystems = ["vfat" "btrfs"];
       compressor = "zstd";
       verbose = false;
     };
     # kernelModules = [ "kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
-    kernelModules = [ "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" ];
-    extraModulePackages = [ ];
-    kernelParams = [ "quiet" "splash" "mitigations=off" "mem_sleep_default=deep" ];
-
+    kernelModules = ["z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram"];
+    extraModulePackages = [];
+    kernelParams = ["quiet" "splash" "gpt" "intel_iommu=on,igfx_off" "mitigations=off" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "intel_idle.max_cstate=1" "net.ifnames=0" "mem_sleep_default=deep"];
 
     ### Enable plymouth ###
     plymouth = {
@@ -43,7 +46,7 @@ in
 
     ### Enabled filesystem
     # supportedFilesystems = [ "vfat" "zfs" ];
-    supportedFilesystems = [ "vfat" "btrfs" ];
+    supportedFilesystems = ["vfat" "btrfs"];
   };
 
   ### Legacy Install ###
@@ -53,50 +56,44 @@ in
   #     fsType = "ext4";
   #   };
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-partlabel/NIXOS";
-      fsType = "btrfs";
-      options = [ "subvol=@root" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-partlabel/NIXOS";
+    fsType = "btrfs";
+    options = ["subvol=@root" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async"];
+  };
 
-  fileSystems."/home" =
-    {
-      device = "/dev/disk/by-partlabel/NIXOS";
-      fsType = "btrfs";
-      options = [ "subvol=@home" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-partlabel/NIXOS";
+    fsType = "btrfs";
+    options = ["subvol=@home" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async"];
+  };
 
-  fileSystems."/.snapshots" =
-    {
-      device = "/dev/disk/by-partlabel/NIXOS";
-      fsType = "btrfs";
-      options = [ "subvol=@snapshots" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
-    };
+  fileSystems."/.snapshots" = {
+    device = "/dev/disk/by-partlabel/NIXOS";
+    fsType = "btrfs";
+    options = ["subvol=@snapshots" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async"];
+  };
 
-  fileSystems."/var/tmp" =
-    {
-      device = "/dev/disk/by-partlabel/NIXOS";
-      fsType = "btrfs";
-      options = [ "subvol=@tmp" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
-    };
+  fileSystems."/var/tmp" = {
+    device = "/dev/disk/by-partlabel/NIXOS";
+    fsType = "btrfs";
+    options = ["subvol=@tmp" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async"];
+  };
 
-  fileSystems."/nix" =
-    {
-      device = "/dev/disk/by-partlabel/NIXOS";
-      fsType = "btrfs";
-      options = [ "subvol=@nix" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async" ];
-    };
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-partlabel/NIXOS";
+    fsType = "btrfs";
+    options = ["subvol=@nix" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async"];
+  };
 
-  fileSystems."/boot/efi" =
-    {
-      device = "/dev/disk/by-partlabel/GRUB";
-      fsType = "vfat";
-      options = [ "defaults" "noatime" "nodiratime" ];
-      noCheck = true;
-    };
+  fileSystems."/boot/efi" = {
+    device = "/dev/disk/by-partlabel/GRUB";
+    fsType = "vfat";
+    options = ["defaults" "noatime" "nodiratime"];
+    noCheck = true;
+  };
 
-  swapDevices = [ ];
+  swapDevices = [];
 
   networking = {
     useDHCP = false; # Deprecated
@@ -104,16 +101,34 @@ in
     interfaces = {
       enp1s0.useDHCP = true;
     };
+    networkmanager = {
+      enable = true;
+      plugins = with pkgs; [
+        networkmanager-openvpn
+        networkmanager-openconnect
+      ];
+    };
   };
 
   zramSwap = {
     enable = true;
     swapDevices = 3;
-    memoryPercent = 20; # 20% of total memory 
+    memoryPercent = 20; # 20% of total memory
     algorithm = "zstd";
   };
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    sane = {
+      # Used for scanning with Xsane
+      enable = true;
+      extraBackends = [pkgs.sane-airscan];
+    };
   };
   #virtualisation.virtualbox.guest.enable = true;     #currently disabled because package is broken
+  services = {
+    btrfs.autoScrub.enable = true;
+    logind.lidSwitch = "suspend";
+    thermald.enable = true;
+    upower.enable = true;
+  };
 }

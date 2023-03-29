@@ -10,15 +10,11 @@
 #           └─ ./bspwm
 #               └─ home.nix
 #
-
-{ pkgs, ... }:
-
-{
-  imports =
-    [
-      # ../../modules/desktop/bspwm/home.nix #Window Manager
-      ../../modules/desktop/gnome/home.nix #Window Manager
-    ];
+{pkgs, ...}: {
+  imports = [
+    # ../../modules/desktop/bspwm/home.nix #Window Manager
+    ../../modules/desktop/gnome/home.nix #Window Manager
+  ];
 
   home = {
     # Specific packages for desktop
@@ -26,6 +22,8 @@
       firefox
       neofetch
       htop
+      exa
+      duf
     ];
   };
 }

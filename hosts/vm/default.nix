@@ -11,22 +11,27 @@
 #           └─ ./bspwm
 #               └─ bspwm.nix
 #
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     # For now, if applying to other system, swap files
     ./hardware-configuration.nix # Current system hardware config @ /etc/nixos/hardware-configuration.nix
     # ../../modules/desktop/bspwm/default.nix # Window Manager
-    # ../../modules/desktop/gnome/default.nix # Gnome
-    ../../modules/desktop/kde/default.nix # Kde
+    ../../modules/desktop/gnome/default.nix # Gnome
+    ../../modules/hardware/work/wpa.nix
+    ../../modules/programs/games.nix #Games
+    # ../../modules/desktop/kde/default.nix # Kde
   ];
 
   boot = {
     isContainer = false;
     # Boot options
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_xanmod_stable;  # Xanmod kernel
+    kernelPackages = pkgs.linuxPackages_lqx; # Liquorix kernel
     # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages; # zfs
     kernel.sysctl = {
       "vm.vfs_cache_pressure" = 500;
@@ -37,12 +42,11 @@
     };
 
     loader = {
-
       efi = {
         canTouchEfiVariables = false;
         efiSysMountPoint = "/boot/efi";
       };
-      timeout = 6;
+      timeout = 5;
 
       ###  Systemd boot as bootloader ###
       # systemd-boot = {
@@ -54,7 +58,6 @@
 
       ### Grub as bootloader ###
       grub = {
-
         ### For legacy boot  ###
         #   enable = true;
         #   version = 2;
@@ -84,6 +87,10 @@
         useOSProber = false; # check for other systems
         fsIdentifier = "label"; # mount devices config using label
         gfxmodeEfi = "1920x1080";
+        fontSize = 20;
+
+        configurationName = "NixOS VM test";
+
         ## If tpm is activated
         # trustedBoot.systemHasTPM = "YES_TPM_is_activated"
         # trustedBoot.enable = true;
@@ -92,7 +99,7 @@
         # extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
 
         ## For encrypted boot
-        # enableCryptodisk = true;  # 
+        # enableCryptodisk = true;  #
 
         ## Add more entries for grub
         extraEntries = ''
@@ -110,7 +117,10 @@
   services = {
     xserver = {
       resolutions = [
-        { x = 1920; y = 1080; }
+        {
+          x = 1920;
+          y = 1080;
+        }
         # { x = 1600; y = 900; }
         # { x = 3840; y = 2160; }
       ];
