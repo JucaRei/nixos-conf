@@ -240,7 +240,8 @@ in {
     autoUpgrade = {
       # Allow auto update (not useful in flakes)
       enable = true;
-      channel = "https://nixos.org/channels/nixos-unstable";
+      #channel = "https://nixos.org/channels/nixos-unstable"; 
+      channel = "https://nixos.org/channels/nixos-22.11";
       dates = "22:00";
       flags = [
         "--update-input"

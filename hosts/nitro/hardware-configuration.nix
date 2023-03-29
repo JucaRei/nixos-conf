@@ -25,7 +25,7 @@ in {
   ];
 
   boot = {
-    consoleLogLevel = 0;
+    # consoleLogLevel = 0;
     # cleanTmpDir = true; # delete all files in /tmp during boot.
     initrd = {
       availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
@@ -58,10 +58,10 @@ in {
     # '';
     # blacklistedKernelModules = [ ];
     ### Enable plymouth ###
-    plymouth = {
-      theme = "breeze";
-      enable = true;
-    };
+    # plymouth = {
+    #   theme = "breeze";
+    #   enable = true;
+    # };
   };
 
   fileSystems."/" = {

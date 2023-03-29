@@ -30,13 +30,13 @@ in {
       # vulkan-validation-layers
       # vulkan-tools
     ];
-    sessionVariables.NIXOS_OZONE_WL = "1"; # Fix for electron apps with wayland
+    # sessionVariables.NIXOS_OZONE_WL = "1"; # Fix for electron apps with wayland
     # Wayland
-    variables = {
-      GBM_BACKEND = "nvidia-drm";
-      LIBVA_DRIVER_NAME = "nvidia";
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    };
+    # variables = {
+    #   GBM_BACKEND = "nvidia-drm";
+    #   LIBVA_DRIVER_NAME = "nvidia";
+    #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    # };
   };
   services.xserver.videoDrivers = [
     "nvidia"
@@ -51,8 +51,8 @@ in {
       # extraPackages = with pkgs; ["nvidia-vaapi-driver"];
     };
     nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
-      # package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
       # package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
       # package = pkgs.linuxKernel.packages.linux_xanmod_stable.nvidia_x11_legacy470;
       # package = pkgs.linuxKernel.packages.linux_xanmod_stable.nvidia_x11_stable_open;
