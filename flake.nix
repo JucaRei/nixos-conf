@@ -28,7 +28,7 @@
       home-manager = {
         # User Package Management
         url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
+        inputs.nixpkgs.follows = "nixpkgs"; # use versions from nixpkgs
       };
 
       darwin = {
@@ -88,13 +88,13 @@
   }:
   # Function that tells my flake which to use and what do what to do with the dependencies.
   let
-    # # Systems that can run tests:
-    # supportedSystems = [
-    #   "aarch64-linux"
-    #   "i686-linux"
-    #   "x86_64-linux"
-    #   "aarch64-darwin"
-    # ];
+    # Systems that can run tests:
+    supportedSystems = [
+      "aarch64-linux"
+      "i686-linux"
+      "x86_64-linux"
+      "aarch64-darwin"
+    ];
     # # Function to generate a set based on supported systems:
     # forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
     # # Attribute set of nixpkgs for each system:
@@ -118,7 +118,7 @@
         import ./hosts {
           # Imports ./hosts/default.nix
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs home-manager nur user computerName hostname monitornitro monitorExternal monitormcbair monitoroldmac monitorVM location doom-emacs hyprland plasma-manager; # Also inherit home-manager so it does not need to be defined here.
+          inherit inputs nixpkgs home-manager nur user supportedSystems computerName hostname monitornitro monitorExternal monitormcbair monitoroldmac monitorVM location doom-emacs hyprland plasma-manager; # Also inherit home-manager so it does not need to be defined here.
         }
       );
 
@@ -126,7 +126,7 @@
         # Darwin Configurations
         import ./darwin {
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs home-manager darwin user monitormcbair monitoroldmac computerName hostname;
+          inherit inputs nixpkgs home-manager darwin supportedSystems user monitormcbair monitoroldmac computerName hostname;
         }
       );
 

@@ -28,8 +28,11 @@
     # For now, if applying to other system, swap files
     [(import ./hardware-configuration.nix)]
     ++ # Current system hardware config @ /etc/nixos/hardware-configuration.nix
-    [(import ../../modules/desktop/gnome/default.nix)]
-    ++ # Gnome
+    
+    # [(import ../../modules/desktop/gnome/default.nix)]
+    # ++ # Gnome
+    [(import ../../modules/desktop/kde/default.nix)]
+    ++ # Kde
     [(import ../../modules/programs/games.nix)]
     ++ # Gaming
     (import ../../modules/desktop/virtualisation)
