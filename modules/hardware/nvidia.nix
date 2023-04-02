@@ -40,8 +40,6 @@ in {
   };
   services.xserver.videoDrivers = [
     "nvidia"
-    # "nvidiaLegacy470"
-    # "modesetting"
   ];
   # services.xserver.videoDrivers = [ "nvidiaLegacy470" ];
   hardware = {

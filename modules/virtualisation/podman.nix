@@ -1,10 +1,12 @@
 #
 # Docker
 #
-
-{ config, pkgs, user, ... }:
-
 {
+  config,
+  pkgs,
+  user,
+  ...
+}: {
   virtualisation = {
     podman = {
       enable = true;
@@ -48,7 +50,7 @@
     };
   };
 
-  users.groups.podman.members = [ "${user}" ];
+  users.groups.podman.members = ["${user}"];
 
   #environment = {
   #  interactiveShellInit = ''

@@ -161,6 +161,12 @@ in {
 
   programs = {
     home-manager.enable = true;
+    direnv = {
+      enable = true;
+      nix-direnv.enableFlakes = true;
+      bash.enable = true;
+      zsh.enable = true;
+    };
   };
 
   gtk = {

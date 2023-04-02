@@ -141,6 +141,12 @@
       pciutils
       usbutils
       wget
+      # Add Direnv
+      direnv
+      nix-direnv
+    ];
+    pathsTolink = [
+      "/share/nix-direnv"
     ];
   };
 
@@ -250,4 +256,9 @@
     };
     stateVersion = "22.11";
   };
+
+  # if you also want support for flakes
+  nixpkgs.overlays = [
+    (self: super: {nix-direnv = super.nix-direnv.override {enableFlakes = true;};})
+  ];
 }
