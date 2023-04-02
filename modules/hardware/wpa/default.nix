@@ -11,8 +11,6 @@
 #               └─ default.nix *
 #                   └─ ...
 #
-
 [
-  ./nvidia.nix
   ./wpa.nix
 ]

@@ -33,11 +33,12 @@
     # ++ # Gnome
     [(import ../../modules/desktop/kde/default.nix)]
     ++ # Kde
-    [(import ../../modules/programs/games.nix)]
-    ++ # Gaming
+    
+    # [(import ../../modules/programs/games.nix)]
+    # ++ # Gaming
     (import ../../modules/desktop/virtualisation)
     ++ # Virtual Machines & VNC
-    (import ../../modules/hardware/work); # Nvidia
+    (import ../../modules/hardware); # Nvidia
 
   boot = {
     isContainer = false;

@@ -11,6 +11,8 @@
 #               └─ ...
 #
 [
-  # ./dslr.nix 
+  # ./dslr.nix
   ./bluetooth.nix
+  ./nvidia.nix
+  ./wpa
 ]

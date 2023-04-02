@@ -17,9 +17,7 @@
   inputs,
   user,
   ...
-}: let
-  user = "juca";
-in {
+}: {
   imports =
     (import ../modules/editors)
     ++ # Native doom emacs instead of nix-community flake
