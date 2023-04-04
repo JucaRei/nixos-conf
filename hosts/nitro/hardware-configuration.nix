@@ -19,6 +19,7 @@
   ...
 }: let
   hostname = "nitro";
+  BtrOpts = ["rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async"];
 in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -28,15 +29,48 @@ in {
     # consoleLogLevel = 0;
     # cleanTmpDir = true; # delete all files in /tmp during boot.
     initrd = {
-      availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+      availableKernelModules = [
+        "xhci_pci"
+        "ehci_pci"
+        "ahci"
+        "usb_storage"
+        "sd_mod"
+        "rtsx_pci_sdmmc"
+      ];
       kernelModules = ["kvm-intel"];
-      supportedFilesystems = ["vfat" "btrfs"];
+      supportedFilesystems = [
+        "vfat"
+        "btrfs"
+      ];
       compressor = "zstd";
       # verbose = false;
     };
-    kernelModules = ["kvm-intel" "z3fold" "crc32c-intel" "lz4hc" "lz4hc_compress" "zram" "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
+    kernelModules = [
+      "kvm-intel"
+      "z3fold"
+      "crc32c-intel"
+      "lz4hc"
+      "lz4hc_compress"
+      "zram"
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
+    ];
     # kernelParams = [ "quiet" "apparmor=1" "usbcore.autosuspend=-1" "intel_pstate=hwp_only" "security=apparmor" "kernel.unprivileged_userns_clone" "vt.global_cursor_default=0" "loglevel=0" "gpt" "init_on_alloc=0" "udev.log_level=0" "rd.driver.blacklist=grub.nouveau" "rcutree.rcu_idle_gp_delay=1" "intel_iommu=on,igfx_off" "nvidia-drm.modeset=1" "i915.enable_psr=0" "i915.modeset=1" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "nowatchdog" "msr.allow_writes=on" "pcie_aspm=force" "module.sig_unenforce" "intel_idle.max_cstate=1" "cryptomgr.notests" "initcall_debug" "net.ifnames=0" "no_timer_check" "noreplace-smp" "page_alloc.shuffle=1" "rcupdate.rcu_expedited=1" "tsc=reliable" ];
-    kernelParams = ["quiet" "gpt" "intel_iommu=on,igfx_off" "zswap.enabled=1" "zswap.compressor=lz4hc" "zswap.max_pool_percent=25" "zswap.zpool=z3fold" "mitigations=off" "intel_idle.max_cstate=1" "net.ifnames=0" "mem_sleep_default=deep"];
+    kernelParams = [
+      "quiet"
+      "gpt"
+      "intel_iommu=on,igfx_off"
+      "zswap.enabled=1"
+      "zswap.compressor=lz4hc"
+      "zswap.max_pool_percent=25"
+      "zswap.zpool=z3fold"
+      "mitigations=off"
+      "intel_idle.max_cstate=1"
+      "net.ifnames=0"
+      "mem_sleep_default=deep"
+    ];
     #extraModulePackages = [ "config.boot.kernelPackages.nvidia_x11" ];
     supportedFilesystems = ["vfat" "btrfs"];
     #kernelPackages = pkgs.linuxPackages_latest;
@@ -57,7 +91,9 @@ in {
     #   "options nvidia_drm modeset=1"
     #   "options nouveau modeset=0"
     # '';
-    # blacklistedKernelModules = [ ];
+    blacklistedKernelModules = [
+      "nouveau"
+    ];
     ### Enable plymouth ###
     # plymouth = {
     #   theme = "breeze";
@@ -74,7 +110,7 @@ in {
   fileSystems."/home" = {
     device = "/dev/disk/by-partlabel/NIXOS";
     fsType = "btrfs";
-    options = ["subvol=@home" "rw" "noatime" "nodiratime" "ssd" "compress-force=zstd:15" "space_cache=v2" "commit=120" "autodefrag" "discard=async"];
+    options = ["subvol=@home" ${BtrOpts}];
   };
 
   fileSystems."/.snapshots" = {

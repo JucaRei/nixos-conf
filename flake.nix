@@ -12,16 +12,16 @@
   inputs =
     # All flake references used to build my NixOS setup. These are dependencies.
     {
-      # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";                  # Nix Packages
-
-      nixpkgs-2211.url = "github:nixos/nixpkgs/nixos-22.11";
-      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-      master.url = "github:nixos/nixpkgs/master";
+      nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11"; # primary nixpkgs
+      nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # for packages on the edge
+      nixpkgs-master.url = "github:nixos/nixpkgs/master"; # master
 
       # The following is required to make flake-parts work.
-      nixpkgs.follows = "nixpkgs-unstable";
+      nixpkgs.follows = "nixpkgs";
       unstable.follows = "nixpkgs-unstable";
-      stable.follows = "nixpkgs-2211";
+      master.follows = "nixpkgs-master";
+
+      nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
       nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
@@ -77,7 +77,10 @@
   outputs = inputs @ {
     self,
     nixpkgs,
+    unstable,
+    master,
     home-manager,
+    nixos-hardware,
     darwin,
     nur,
     nixgl,
@@ -103,8 +106,8 @@
     # Variables that can be used in the config files.
     user = "juca"; # Set the name of user for each host you want to install
     location = "$HOME/.setup";
-    computerName = "vmbox"; # Set the computer name for each host you want to install
-    hostname = "teste"; # Set the hostname name for each host you want to install
+    computerName = "nitro"; # Set the computer name for each host you want to install
+    hostname = "rocinante"; # Set the hostname name for each host you want to install
     monitornitro = "eDP-1";
     monitorExternal = "HDMI-1-0";
     monitormcbair = "eDP1";

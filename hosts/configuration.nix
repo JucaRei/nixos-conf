@@ -17,7 +17,28 @@
   inputs,
   user,
   ...
-}: {
+}: let
+  ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+  extraGroups =
+    [
+      "wheel"
+      "video"
+      "audio"
+    ]
+    ++ ifTheyExist [
+      "network"
+      "networkmanager"
+      "docker"
+      "git"
+      "camera"
+      "networkmanager"
+      "lp"
+      "scanner"
+      "kvm"
+      "libvirtd"
+      "plex"
+    ];
+in {
   imports =
     (import ../modules/editors)
     ++ # Native doom emacs instead of nix-community flake
@@ -34,7 +55,7 @@
     autoSubUidGidRange = true; # Allocated range is currently always of size 65536
     initialPassword = "123"; # remember of changing the password when log in.
     # extraGroups = ["wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd" "plex"];
-    extraGroups = ["wheel" "video" "audio" "camera" "networkmanager" "lp" "scanner" "kvm" "libvirtd"];
+    inherit extraGroups;
     shell = pkgs.zsh; # Default shell
     # shell = "/bin/bash"
   };
@@ -140,11 +161,12 @@
       nano
       pciutils
       usbutils
-      wget
+      #wget
       # Add Direnv
       direnv
       nix-direnv
     ];
+    # Direnv
     pathsTolink = [
       "/share/nix-direnv"
     ];
@@ -180,7 +202,8 @@
     };
     openssh = {
       # SSH: secure shell (remote connection to shell of server)
-      enable = true; # local: $ ssh <user>@<ip>
+      #enable = true; # local: $ ssh <user>@<ip>
+      startWhenNeeded = true; #systemd will start an instance for each incoming connection.
       # public:
       #   - port forward 22 TCP to server
       #   - in case you want to use the domain name insted of the ip:
@@ -237,6 +260,10 @@
     # allowUnsupportedSystem = true; # For permanently allowing unsupported packages to be built.
 
     allowUnfreePredicate = _: true; # Workaround for https://github.com/nix-community/home-manager/issues/2942
+    # For support flakes with direnv
+    overlays = [
+      (self: super: {nix-direnv = super.nix-direnv.override {enableFlakes = true;};})
+    ];
   };
 
   system = {

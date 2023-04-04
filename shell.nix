@@ -1,10 +1,16 @@
+# Shell for bootstrapping flake-enabled nix and home-manager
 {pkgs ? import <nixpkgs> {}}:
 pkgs.mkShell {
   name = "nixosbuildshell";
   nativeBuildInputs = with pkgs; [
     git
     # git-crypt
+    nix-direnv
+    nil
     nixFlakes
+    home-manager
+    neovim
+    nano
   ];
 
   shellHook = ''
