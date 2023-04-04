@@ -72,13 +72,16 @@
         inputs.nixpkgs.follows = "nixpkgs";
         inputs.home-manager.follows = "nixpkgs";
       };
+
+      flake-utils.url = "github:numtide/flake-utils";
     };
 
   outputs = inputs @ {
+    #outputs = {
     self,
     nixpkgs,
-    unstable,
-    master,
+    nixpkgs-unstable,
+    nixpkgs-master,
     home-manager,
     nixos-hardware,
     darwin,
@@ -89,15 +92,18 @@
     plasma-manager,
     ...
   }:
+  #} @ inputs:
   # Function that tells my flake which to use and what do what to do with the dependencies.
   let
     # Systems that can run tests:
-    # supportedSystems = [
-    #   "aarch64-linux"
-    #   "i686-linux"
-    #   "x86_64-linux"
-    #   "aarch64-darwin"
-    # ];
+    #inherit (self) outputs;
+    #forAllSystems = nixpkgs.lib.genAttrs [
+    #  "aarch64-linux"
+    #  "aarch64-darwin"
+    #  "x86_64-darwin"
+    #  "x86_64-linux"
+    #];
+    system = "x86_64-linux";
     # # Function to generate a set based on supported systems:
     # forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
     # # Attribute set of nixpkgs for each system:
@@ -116,12 +122,30 @@
   in
     # Use above variables in ...
     {
+      # Custom packages
+      # Acessible through `nix build`, `nix shell`, etc...
+      #packages = forAllSystems (
+      #  system: let
+      #    pkgs = nixpkgs.legacyPackages.${system};
+      #  in
+      #    import ./pkgs {inherit pkgs;}
+      #);
+      ## Devshell for bootstrapping
+      ## Acessible through `nix develop` or `nix-shell` (legacy)
+      #devShells = forAllSystems (
+      #  system: let
+      #    pkgs = nixpkgs.legacyPackages.${system};
+      #  in
+      #    import ./shell.nix {inherit pkgs;}
+      #);
+      system = "x86_64-linux";
+      ### Builds NIX
       nixosConfigurations = (
         # NixOS configurations
         import ./hosts {
           # Imports ./hosts/default.nix
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs home-manager nur user supportedSystems computerName hostname monitornitro monitorExternal monitormcbair monitoroldmac monitorVM location doom-emacs hyprland plasma-manager; # Also inherit home-manager so it does not need to be defined here.
+          inherit inputs nixpkgs home-manager nur user computerName hostname monitornitro monitorExternal monitormcbair monitoroldmac monitorVM location doom-emacs hyprland plasma-manager; # Also inherit home-manager so it does not need to be defined here.
         }
       );
 
@@ -129,7 +153,7 @@
         # Darwin Configurations
         import ./darwin {
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs home-manager darwin supportedSystems user monitormcbair monitoroldmac computerName hostname;
+          inherit inputs nixpkgs home-manager darwin user monitormcbair monitoroldmac computerName hostname;
         }
       );
 
